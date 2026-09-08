@@ -43,14 +43,14 @@ The discovery loop is `/{username}.svg` next to `/{username}`. Splitting those o
 
 This is not a microservices repo. The workspace exists so domain rules, SVG rendering, and config constants can be tested without the Worker runtime, while the Worker remains the only deployable.
 
-- `@gittygotchi/worker` — HTTP and GitHub adapters; later D1
+- `@gittygotchi/worker` — HTTP, GitHub adapters, and D1 repository; routes still placeholder
 - `@gittygotchi/domain` — types and deterministic rules
 - `@gittygotchi/svg` — rendering
 - `@gittygotchi/config` — TTLs, growth thresholds, class bands, public origin
 
 ## Request lifecycle
 
-Phase 1–3:
+Phase 1–4:
 
 ```text
 GET /{username}.svg
@@ -58,7 +58,7 @@ GET /{username}.svg
   return placeholder SVG
 ```
 
-The GitHub adapter and domain engine exist and are tested. Routes do not call them yet.
+The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet.
 
 Later:
 
@@ -105,6 +105,8 @@ Cache constants live in `packages/config/src/cache.ts`. If GitHub is down, serve
 
 Requesting `/{username}` or `/{username}.svg` may create that Gitty in later phases. That does not prove GitHub account ownership. Another person can trigger the first creation. Optional verification can be added later without changing the README snippet.
 
+The D1 adapter and `adoptPet()` live in `apps/worker/src/storage/`. HTTP routes do not call them yet. Class is written once and never appears in lifecycle updates. Unchanged growth fields are not rewritten.
+
 ## Concurrency
 
 Two first requests may both try to insert. The unique username constraint decides. The loser re-reads. No distributed lock.
@@ -137,7 +139,7 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 
 - Phase 2: GitHub adapter and parser — done, not wired to HTTP
 - Phase 3: domain engine — done, not wired to HTTP
-- Phase 4: D1 repository
+- Phase 4: D1 repository — done, not wired to HTTP
 - Phase 5: SVG foundation after character design
 - Phase 6: cache
 - Phase 7: landing/share polish

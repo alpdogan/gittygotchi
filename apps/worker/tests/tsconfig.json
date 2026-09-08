@@ -3,5 +3,11 @@
 	"compilerOptions": {
 		"types": ["@cloudflare/vitest-plugin/types"]
 	},
-	"include": ["./integration/**/*.ts", "../src/**/*.ts", "../worker-configuration.d.ts"]
+	"include": [
+		"./env.d.ts",
+		"./apply-migrations.ts",
+		"./integration/**/*.ts",
+		"../src/**/*.ts",
+		"../worker-configuration.d.ts"
+	]
 }

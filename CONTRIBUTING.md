@@ -74,7 +74,7 @@ Production migrations:
 pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --remote
 ```
 
-Phase 1 does not read or write D1 at runtime.
+Phase 4 adds a D1 repository. Routes still do not read or write D1 at runtime.
 
 ## Production domain
 
