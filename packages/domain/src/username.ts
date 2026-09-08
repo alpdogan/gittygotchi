@@ -1,4 +1,4 @@
-const GITHUB_USERNAME_PATTERN = /^[a-z0-9](?:[a-z0-9]|-(?=[a-z0-9])){0,38}$/;
+export const GITHUB_USERNAME_PATTERN = /^[a-z0-9](?:[a-z0-9]|-(?=[a-z0-9])){0,38}$/;
 
 export type UsernameValidationSuccess = {
 	ok: true;

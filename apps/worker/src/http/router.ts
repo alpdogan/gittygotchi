@@ -21,7 +21,7 @@ export function handleRequest(
 	}
 
 	if (pathname === "/") {
-		return landingResponse();
+		return landingResponse(url.searchParams.get("username"));
 	}
 
 	if (pathname === "/health") {

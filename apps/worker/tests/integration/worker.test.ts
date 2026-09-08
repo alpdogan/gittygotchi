@@ -14,6 +14,26 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("A tiny creature that lives on your GitHub profile.");
 		expect(html).toContain(readmeSnippet(EXAMPLE_USERNAME));
 		expect(html).toContain("[![GittyGotchi](https://gittygotchi.alpdogan.co/YOUR_USERNAME.svg)]");
+		expect(html).toContain('href="#own"');
+		expect(html).toContain("Copy Markdown");
+		expect(html).toContain("Open Gitty page");
+		expect(html).toContain('property="og:image"');
+	});
+
+	it("prefills the landing generator from a username query", async () => {
+		const valid = await worker.fetch(
+			new Request("https://gittygotchi.alpdogan.co/?username=OctoCat"),
+		);
+		const validHtml = await valid.text();
+		expect(validHtml).toContain('value="octocat"');
+		expect(validHtml).toContain("https://gittygotchi.alpdogan.co/octocat.svg");
+
+		const invalid = await worker.fetch(
+			new Request("https://gittygotchi.alpdogan.co/?username=-bad"),
+		);
+		const invalidHtml = await invalid.text();
+		expect(invalidHtml).toContain('aria-invalid="true"');
+		expect(invalidHtml).toContain("No leading, trailing, or doubled hyphens.");
 	});
 
 	it("serves health JSON", async () => {
@@ -36,6 +56,10 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain(readmeSnippet("alpdogan"));
 		expect(html).toContain("Want your own Gitty?");
 		expect(html).toContain("View @alpdogan on GitHub");
+		expect(html).toContain("Star GittyGotchi on GitHub");
+		expect(html).toContain("Get my Gitty");
+		expect(html).toContain("Foundation preview");
+		expect(html).toContain('content="https://gittygotchi.alpdogan.co/alpdogan.svg"');
 	});
 
 	it("serves a foundation Gitty SVG for a valid username", async () => {

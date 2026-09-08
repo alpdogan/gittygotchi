@@ -67,7 +67,7 @@ flowchart TD
   domain --> svg[SVG Renderer]
 ```
 
-The Worker serves landing and share pages plus a cached foundation Gitty SVG. GitHub fetching, the domain engine, and the D1 repository exist in the repo but are not wired to HTTP yet. Live pet state arrives in later phases.
+The Worker serves a polished landing page and share pages plus a cached foundation Gitty SVG. GitHub fetching, the domain engine, and the D1 repository exist in the repo but are not wired to HTTP yet. Live pet state arrives in later phases.
 
 ## Development
 

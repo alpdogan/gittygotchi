@@ -151,6 +151,6 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 - Phase 4: D1 repository — done, not wired to HTTP
 - Phase 5: SVG foundation — done; final character still needs approval
 - Phase 6: cache — done; live pet path still unwired
-- Phase 7: landing/share polish
+- Phase 7: landing/share polish — done; live pet path still unwired
 - Phase 8: visual polish by approval
 - Phase 9: production domain, ruleset, protected deploys

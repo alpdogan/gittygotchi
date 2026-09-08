@@ -78,6 +78,8 @@ Phase 4 adds a D1 repository. Routes still do not read or write D1 at runtime.
 
 Phase 6 caches foundation SVGs for 10 minutes on the `PetSvg` entrypoint. HTML stays `no-store`. GitHub and D1 are still not on the HTTP path.
 
+Phase 7 polishes the landing and share pages. The copy/discovery loop is the product.
+
 ## Production domain
 
 Do not add `gittygotchi.alpdogan.co` to Wrangler until that hostname is ready.

@@ -37,4 +37,4 @@ export type {
 	UsernameValidationResult,
 	UsernameValidationSuccess,
 } from "./username.ts";
-export { isGitHubUsername, parseGitHubUsername } from "./username.ts";
+export { GITHUB_USERNAME_PATTERN, isGitHubUsername, parseGitHubUsername } from "./username.ts";
