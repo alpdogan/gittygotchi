@@ -27,7 +27,7 @@ pnpm test:watch
 pnpm test:coverage
 pnpm check
 pnpm dev
-pnpm deploy
+pnpm deploy:production
 ```
 
 `pnpm check` runs format check, lint, typecheck, and tests.
@@ -118,11 +118,11 @@ apply pending production D1 migrations before deploying:
 ```bash
 pnpm --filter @gittygotchi/worker exec wrangler d1 migrations list gittygotchi --remote
 pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --remote
-pnpm deploy
+pnpm deploy:production
 ```
 
-`pnpm deploy` enforces the clean/ref checks, runs `pnpm check`, performs a Wrangler dry run, and
-only then deploys.
+`pnpm deploy:production` enforces the clean/ref checks, runs `pnpm check`, performs a Wrangler dry
+run, and only then deploys.
 
 Verify the active deployment, recent versions, and public domain:
 
