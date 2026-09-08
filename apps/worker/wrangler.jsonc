@@ -3,7 +3,8 @@
 	"name": "gittygotchi",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-09-08",
-	"workers_dev": true,
+	"workers_dev": false,
+	"routes": [{ "pattern": "gittygotchi.alpdogan.co", "custom_domain": true }],
 	"observability": {
 		"enabled": true,
 		"logs": {
@@ -22,9 +23,7 @@
 		{
 			"binding": "DB",
 			"database_name": "gittygotchi",
-			// Paste the UUID printed by `wrangler d1 create gittygotchi` here.
-			// This value is a local placeholder, not a real Cloudflare database ID.
-			"database_id": "00000000-0000-4000-8000-000000000000",
+			"database_id": "48dced32-6f18-48fa-9480-fa1a1585186d",
 			"preview_database_id": "gittygotchi-local",
 			"migrations_dir": "migrations"
 		}

@@ -71,8 +71,13 @@ pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi 
 Production migrations:
 
 ```bash
+pnpm --filter @gittygotchi/worker exec wrangler d1 migrations list gittygotchi --remote
 pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --remote
 ```
+
+Remote migrations are a production operation. Apply them manually immediately before the
+corresponding Worker deploy. Wrangler records applied migrations; do not attempt to reverse them
+with a Worker rollback.
 
 Phase 4 adds a D1 repository. Routes still do not read or write D1 at runtime.
 
@@ -90,27 +95,53 @@ Open `docs/screenshots/gallery.html` to compare every stage, class, mood, hunger
 
 ## Production domain
 
-Do not add `gittygotchi.alpdogan.co` to Wrangler until that hostname is ready.
+`gittygotchi.alpdogan.co` is a Wrangler-managed custom domain. The Worker is not exposed on a
+`workers.dev` subdomain.
 
-When `alpdogan.co` is a Cloudflare zone, connect the Worker as a Custom Domain:
+Production changes are manual only. CI validates the Worker but must not receive Cloudflare
+production credentials or deploy.
 
-1. Cloudflare Dashboard → Workers & Pages → `gittygotchi` → Settings → Domains & Routes
-2. Add → Custom domain → `gittygotchi.alpdogan.co`
-3. Cloudflare will create DNS and certificates. Do not invent DNS values by hand.
-
-Optionally later, encode the same binding in `apps/worker/wrangler.jsonc`:
-
-```jsonc
-"routes": [{ "pattern": "gittygotchi.alpdogan.co", "custom_domain": true }]
-```
-
-Production deploy:
+Before deploying, authenticate Wrangler, fetch remote refs, and use either a clean `main` checkout
+whose `origin/main` equals `HEAD` or a clean checkout at an exact tag that exists on `origin` at
+`HEAD`:
 
 ```bash
+pnpm --filter @gittygotchi/worker exec wrangler whoami
+git fetch origin main --tags
+git switch main
+git pull --ff-only origin main
+```
+
+For a tagged release, replace the last two commands with `git checkout <TAG>`. Then inspect and
+apply pending production D1 migrations before deploying:
+
+```bash
+pnpm --filter @gittygotchi/worker exec wrangler d1 migrations list gittygotchi --remote
+pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --remote
 pnpm deploy
 ```
 
-Only from protected `main` or a tagged release. CI does not deploy and must not receive Cloudflare secrets on pull requests.
+`pnpm deploy` enforces the clean/ref checks, runs `pnpm check`, performs a Wrangler dry run, and
+only then deploys.
+
+Verify the active deployment, recent versions, and public domain:
+
+```bash
+pnpm --filter @gittygotchi/worker exec wrangler deployments status
+pnpm --filter @gittygotchi/worker exec wrangler deployments list
+pnpm --filter @gittygotchi/worker exec wrangler versions list
+curl --fail --show-error --silent https://gittygotchi.alpdogan.co/ >/dev/null
+```
+
+Inspect a version and roll Worker code back with Wrangler 4.130.0:
+
+```bash
+pnpm --filter @gittygotchi/worker exec wrangler versions view <VERSION_ID>
+pnpm --filter @gittygotchi/worker exec wrangler rollback <VERSION_ID>
+```
+
+Rollback does not undo D1 migrations. Use a forward migration to correct production schema or
+data.
 
 ## Hooks
 
