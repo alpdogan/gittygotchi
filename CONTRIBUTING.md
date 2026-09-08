@@ -80,6 +80,14 @@ Phase 6 caches foundation SVGs for 10 minutes on the `PetSvg` entrypoint. HTML s
 
 Phase 7 polishes the landing and share pages. The copy/discovery loop is the product.
 
+Phase 8 polishes character art: distinct Egg through Mature silhouettes, class traits, extra faces, and motion. HTTP still serves a preview egg. After changing SVG markup, regenerate README samples:
+
+```bash
+pnpm --filter @gittygotchi/svg export-screenshots
+```
+
+Open `docs/screenshots/gallery.html` to compare the paper card on GitHub light (`#ffffff`) and dark (`#0d1117`).
+
 ## Production domain
 
 Do not add `gittygotchi.alpdogan.co` to Wrangler until that hostname is ready.

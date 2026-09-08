@@ -24,7 +24,7 @@ export function renderUserPage(username: string): string {
 			</div>
 			<div>
 				<dt>Current visible state</dt>
-				<dd>Foundation preview</dd>
+				<dd>Preview egg</dd>
 			</div>
 			<div>
 				<dt>Growth</dt>

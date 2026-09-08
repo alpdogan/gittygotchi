@@ -58,11 +58,11 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("View @alpdogan on GitHub");
 		expect(html).toContain("Star GittyGotchi on GitHub");
 		expect(html).toContain("Get my Gitty");
-		expect(html).toContain("Foundation preview");
+		expect(html).toContain("Preview egg");
 		expect(html).toContain('content="https://gittygotchi.alpdogan.co/alpdogan.svg"');
 	});
 
-	it("serves a foundation Gitty SVG for a valid username", async () => {
+	it("serves a preview Gitty SVG for a valid username", async () => {
 		const response = await worker.fetch(
 			new Request("https://gittygotchi.alpdogan.co/alpdogan.svg"),
 		);

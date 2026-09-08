@@ -45,7 +45,7 @@ This is not a microservices repo. The workspace exists so domain rules, SVG rend
 
 - `@gittygotchi/worker` — HTTP, GitHub adapters, D1 repository, and SVG cache; live pet path not wired
 - `@gittygotchi/domain` — types and deterministic rules
-- `@gittygotchi/svg` — composable foundation renderer
+- `@gittygotchi/svg` — composable renderer with distinct growth silhouettes; HTTP still serves a preview egg
 - `@gittygotchi/config` — TTLs, growth thresholds, class bands, public origin
 
 ## Request lifecycle
@@ -58,10 +58,10 @@ GET /{username}.svg
   gateway (uncached)
   PetSvg entrypoint cache
     hit: return SVG
-    miss: render foundation SVG, store for 10 minutes
+    miss: render preview SVG, store for 10 minutes
 ```
 
-The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the composable foundation renderer with a preview egg. Cache hits on `PetSvg` skip that entrypoint. The gateway still validates the username so query strings cannot poison the key.
+The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the composable renderer with a preview egg. Cache hits on `PetSvg` skip that entrypoint. The gateway still validates the username so query strings cannot poison the key.
 
 Later:
 
@@ -126,7 +126,7 @@ Do not `UPDATE pets SET views = views + 1`. Cache hits never reach the Worker. A
 
 ## SVG architecture
 
-Gitty is composed from body, class, face, behavior, and effects layers. Phase 5 ships egg and hatchling foundation art with Neutral, Happy, Hungry, and Sleeping faces plus simple class treatments. Later stages reuse the hatchling silhouette until visual polish. Animation is CSS progressive enhancement. This is not the final character.
+Gitty is composed from body, class, face, behavior, and effects layers. Each growth stage has its own silhouette: egg, hatchling (shell), baby, young, adult, and mature. Faces cover Neutral, Happy, Excited, Hungry, Sad, Grumpy, and Sleeping. Class treatments escalate from egg marks to adult/mature extras. Animation is CSS progressive enhancement and may be ignored by GitHub's image proxy. The card fill is warm paper with a stroke so the image reads on GitHub light and dark backgrounds. HTTP still serves a preview egg; live class and growth are not wired.
 
 ## Clickable README strategy
 
@@ -149,8 +149,8 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 - Phase 2: GitHub adapter and parser — done, not wired to HTTP
 - Phase 3: domain engine — done, not wired to HTTP
 - Phase 4: D1 repository — done, not wired to HTTP
-- Phase 5: SVG foundation — done; final character still needs approval
+- Phase 5: SVG foundation — done
 - Phase 6: cache — done; live pet path still unwired
 - Phase 7: landing/share polish — done; live pet path still unwired
-- Phase 8: visual polish by approval
+- Phase 8: visual polish — done; HTTP still serves a preview egg
 - Phase 9: production domain, ruleset, protected deploys

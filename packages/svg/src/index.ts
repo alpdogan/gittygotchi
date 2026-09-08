@@ -1,5 +1,6 @@
 export { GITTY_STYLE } from "./animations.ts";
 export { bodyScale, isEggStage } from "./body.ts";
+export { CARD_FILL, CARD_STROKE } from "./card.ts";
 export type { ErrorSvgKind, ErrorSvgOptions } from "./error-svg.ts";
 export { renderErrorSvg } from "./error-svg.ts";
 export { escapeXml } from "./escape.ts";

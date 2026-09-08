@@ -31,7 +31,7 @@ export function renderLandingPage(rawUsername?: string | null): string {
 				</div>
 			</div>
 		</div>
-		<p class="notice">This is the foundation Gitty renderer. Live class and growth are not connected yet.</p>
+		<p class="notice">Character stages and classes are drawn. Live class and growth are not connected yet, so this preview is still an egg.</p>
 
 		<section class="card">
 			<p>Primary example: <a href="/${EXAMPLE_USERNAME}">@${EXAMPLE_USERNAME}</a></p>

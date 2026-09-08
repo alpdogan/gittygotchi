@@ -67,7 +67,30 @@ flowchart TD
   domain --> svg[SVG Renderer]
 ```
 
-The Worker serves a polished landing page and share pages plus a cached foundation Gitty SVG. GitHub fetching, the domain engine, and the D1 repository exist in the repo but are not wired to HTTP yet. Live pet state arrives in later phases.
+The Worker serves a polished landing page and share pages plus a cached preview Gitty SVG. The renderer can draw every growth stage and class; live pet state is not wired to HTTP yet.
+
+## Looks
+
+Everyone starts as an egg. Growth and class art is ready in the renderer.
+
+<p align="center">
+	<img src="docs/screenshots/stage-egg.svg" width="96" alt="Egg">
+	<img src="docs/screenshots/stage-hatchling.svg" width="96" alt="Hatchling">
+	<img src="docs/screenshots/stage-baby.svg" width="96" alt="Baby">
+	<img src="docs/screenshots/stage-young.svg" width="96" alt="Young">
+	<img src="docs/screenshots/stage-adult.svg" width="96" alt="Adult">
+	<img src="docs/screenshots/stage-mature.svg" width="96" alt="Mature">
+</p>
+
+<p align="center">
+	<img src="docs/screenshots/class-earth.svg" width="96" alt="Earth">
+	<img src="docs/screenshots/class-water.svg" width="96" alt="Water">
+	<img src="docs/screenshots/class-air.svg" width="96" alt="Air">
+	<img src="docs/screenshots/class-fire.svg" width="96" alt="Fire">
+	<img src="docs/screenshots/class-psy.svg" width="96" alt="Psy">
+</p>
+
+GitHub fetching, the domain engine, and the D1 repository exist in the repo but are not wired to HTTP yet.
 
 ## Development
 

@@ -14,7 +14,8 @@
 			"!!**/coverage",
 			"!!**/pnpm-lock.yaml",
 			"!!**/worker-configuration.d.ts",
-			"!!**/fixtures"
+			"!!**/fixtures",
+			"!!**/docs/screenshots"
 		]
 	},
 	"formatter": {
