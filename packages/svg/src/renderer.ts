@@ -5,9 +5,9 @@ import { renderVariationPrototype } from "./prototype/renderer.ts";
 
 export const FOUNDATION_PREVIEW_STATE: VisiblePetState = {
 	gittyClass: "earth",
-	growthStage: "egg",
+	growthStage: "adult",
 	hunger: "normal",
-	mood: "neutral",
+	mood: "happy",
 	behavior: "idle",
 };
 
@@ -25,7 +25,7 @@ export function renderGitty(options: GittySvgOptions): string {
 		? `GittyGotchi preview for @${safeUser}`
 		: `GittyGotchi for @${safeUser}`;
 	const desc = options.preview
-		? "A preview egg. Live class and growth are not connected yet."
+		? "A preview adult Gitty. Live class and growth are not connected yet."
 		: `${escapeXml(state.gittyClass)} ${escapeXml(state.growthStage)} looking ${escapeXml(face)}.`;
 
 	return stampProductionMetadata(

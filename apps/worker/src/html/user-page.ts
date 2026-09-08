@@ -24,11 +24,11 @@ export function renderUserPage(username: string): string {
 			</div>
 			<div>
 				<dt>Current visible state</dt>
-				<dd>Preview egg</dd>
+				<dd>Preview adult</dd>
 			</div>
 			<div>
 				<dt>Growth</dt>
-				<dd>Egg</dd>
+				<dd>Adult</dd>
 			</div>
 		</dl>
 		<p class="links">
