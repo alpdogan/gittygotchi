@@ -126,7 +126,7 @@ Do not `UPDATE pets SET views = views + 1`. Cache hits never reach the Worker. A
 
 ## SVG architecture
 
-Gitty is composed from body, class, face, behavior, and effects layers. Each growth stage has its own silhouette: egg, hatchling (shell), baby, young, adult, and mature. Faces cover Neutral, Happy, Excited, Hungry, Sad, Grumpy, and Sleeping. Class treatments escalate from egg marks to adult/mature extras. Animation is CSS progressive enhancement and may be ignored by GitHub's image proxy. The card fill is warm paper with a stroke so the image reads on GitHub light and dark backgrounds. HTTP still serves a preview egg; live class and growth are not wired.
+Gitty is composed from the approved prototype renderer: shared species anatomy, class treatments, faces, behavior props, and stage-aware effects. HTTP still serves a preview egg; live class and growth are not wired.
 
 ## Clickable README strategy
 

@@ -85,7 +85,7 @@ Phase 6 caches foundation SVGs for 10 minutes on the `PetSvg` entrypoint. HTML s
 
 Phase 7 polishes the landing and share pages. The copy/discovery loop is the product.
 
-Phase 8 polishes character art: distinct Egg through Mature silhouettes, class traits, extra faces, and motion. HTTP still serves a preview egg. After changing SVG markup, regenerate README samples:
+Phase 8 polishes character art through the approved prototype renderer. HTTP still serves a preview egg. After changing SVG markup, regenerate README samples:
 
 ```bash
 pnpm --filter @gittygotchi/svg export-screenshots

@@ -50,7 +50,7 @@ describe("screenshot samples", () => {
 		}
 
 		for (const behavior of SCREENSHOT_BEHAVIORS) {
-			expect(renderBehaviorScreenshot(behavior)).toContain(`class="gitty-${behavior}"`);
+			expect(renderBehaviorScreenshot(behavior)).toContain(`behavior-${behavior}`);
 		}
 
 		expect(renderStageClassScreenshot("egg", "water")).toContain('data-gitty-class="water"');
