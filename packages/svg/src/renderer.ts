@@ -1,13 +1,7 @@
 import type { VisiblePetState } from "@gittygotchi/domain";
-import { GITTY_STYLE } from "./animations.ts";
-import { motionClass, renderBehaviorExtras } from "./behavior.ts";
-import { bodyScale, renderBody, renderGroundShadow } from "./body.ts";
-import { CARD_FILL, CARD_STROKE } from "./card.ts";
-import { renderClassEffects } from "./class-effects.ts";
-import { compactSvg } from "./compact.ts";
 import { escapeXml } from "./escape.ts";
-import { renderFace, resolveFace } from "./face.ts";
-import { CLASS_PALETTES } from "./palette.ts";
+import { resolveFace } from "./face.ts";
+import { renderVariationPrototype } from "./prototype/renderer.ts";
 
 export const FOUNDATION_PREVIEW_STATE: VisiblePetState = {
 	gittyClass: "earth",
@@ -25,9 +19,7 @@ export type GittySvgOptions = {
 
 export function renderGitty(options: GittySvgOptions): string {
 	const { username, state } = options;
-	const palette = CLASS_PALETTES[state.gittyClass];
 	const face = resolveFace(state);
-	const scale = bodyScale(state.growthStage);
 	const safeUser = escapeXml(username);
 	const title = options.preview
 		? `GittyGotchi preview for @${safeUser}`
@@ -36,21 +28,41 @@ export function renderGitty(options: GittySvgOptions): string {
 		? "A preview egg. Live class and growth are not connected yet."
 		: `${escapeXml(state.gittyClass)} ${escapeXml(state.growthStage)} looking ${escapeXml(face)}.`;
 
-	return compactSvg(`<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" data-gitty-class="${state.gittyClass}" data-gitty-stage="${state.growthStage}" data-gitty-behavior="${state.behavior}" data-gitty-face="${face}">
-	<title>${title}</title>
-	<desc>${desc}</desc>
-	${GITTY_STYLE}
-	<rect width="240" height="240" rx="28" fill="${CARD_FILL}" stroke="${CARD_STROKE}" stroke-width="3"/>
-	<g transform="translate(120 150) scale(${scale}) translate(-120 -150)">
-		${renderGroundShadow(state.growthStage, palette, state.behavior)}
-		<g class="${motionClass(state.behavior)}">
-			${renderBody(state.growthStage, palette, state.gittyClass)}
-			${renderClassEffects(state.gittyClass, palette, state.growthStage)}
-			${renderFace(face, palette, state.growthStage)}
-			${renderBehaviorExtras(state.behavior, palette)}
-		</g>
-	</g>
-</svg>
-`);
+	return stampProductionMetadata(
+		renderVariationPrototype({
+			gittyClass: state.gittyClass,
+			stage: state.growthStage,
+			mood: state.mood,
+			hunger: state.hunger,
+			behavior: state.behavior,
+		}),
+		{
+			title,
+			desc,
+			gittyClass: state.gittyClass,
+			growthStage: state.growthStage,
+			behavior: state.behavior,
+			face,
+		},
+	);
+}
+
+function stampProductionMetadata(
+	svg: string,
+	attrs: {
+		title: string;
+		desc: string;
+		gittyClass: string;
+		growthStage: string;
+		behavior: string;
+		face: string;
+	},
+): string {
+	return svg
+		.replace(/<title>[\s\S]*?<\/title>/, `<title>${attrs.title}</title>`)
+		.replace(/<desc>[\s\S]*?<\/desc>/, `<desc>${attrs.desc}</desc>`)
+		.replace(
+			/<svg\b([^>]*)>/,
+			`<svg$1 data-gitty-class="${attrs.gittyClass}" data-gitty-stage="${attrs.growthStage}" data-gitty-body="${attrs.growthStage}" data-gitty-behavior="${attrs.behavior}" data-gitty-face="${attrs.face}">`,
+		);
 }

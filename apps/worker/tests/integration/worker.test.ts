@@ -74,6 +74,8 @@ describe("GittyGotchi worker", () => {
 		expect(response.headers.get("content-type")).toContain("image/svg+xml");
 		expect(svg).toContain("<svg");
 		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain('data-prototype-stage="egg"');
+		expect(svg).toContain("stage-egg");
 		expect(svg).toContain("@alpdogan");
 		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});

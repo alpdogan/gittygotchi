@@ -51,7 +51,7 @@ describe("resolveFace", () => {
 });
 
 describe("renderGitty", () => {
-	it("returns a compact accessible SVG", () => {
+	it("returns a compact accessible SVG from the approved prototype", () => {
 		const svg = renderGitty({ username: "alpdogan", state: state({ growthStage: "egg" }) });
 		expect(svg.startsWith("<?xml")).toBe(true);
 		expect(svg).toContain("<svg");
@@ -61,16 +61,14 @@ describe("renderGitty", () => {
 		expect(svg).toContain("@alpdogan");
 		expect(svg).toContain('data-gitty-stage="egg"');
 		expect(svg).toContain('data-gitty-body="egg"');
-		expect(svg).toContain(`fill="${CARD_FILL}"`);
-		expect(svg).toContain(`stroke="${CARD_STROKE}"`);
-		expect(svg).toMatch(
-			/<g transform="translate\(120 150\) scale\([^)]+\) translate\(-120 -150\)"><g transform="translate\(120 198\)"><g class="gitty-shadow gitty-shadow-idle">/,
-		);
-		expect(svg).not.toContain('class="gitty-ear"');
+		expect(svg).toContain('data-prototype-stage="egg"');
+		expect(svg).toContain("stage-egg");
+		expect(svg).toContain('fill="#f3ead7"');
+		expect(svg).not.toContain('class="gitty-ears"');
 		expect(svg).not.toContain("XP");
 		expect(svg).not.toContain("Level");
 		expect(svg.length).toBeGreaterThan(0);
-		expect(svg.length).toBeLessThan(12_000);
+		expect(svg.length).toBeLessThan(16_000);
 		expect(svg.includes("\n\t")).toBe(false);
 	});
 
@@ -105,30 +103,29 @@ describe("renderGitty", () => {
 			username: "octocat",
 			state: state({ gittyClass: "water", growthStage: "adult" }),
 		});
-		expect(waterEgg).toContain("gitty-bubble");
-		expect(waterAdult.match(/gitty-bubble/g)?.length ?? 0).toBeGreaterThan(
-			waterEgg.match(/gitty-bubble/g)?.length ?? 0,
-		);
+		expect(waterEgg).not.toContain("water-bubble");
+		expect(waterAdult).toContain("water-bubble");
+		expect(waterAdult.match(/water-bubble/g)?.length ?? 0).toBeGreaterThan(0);
 
 		const earthMature = renderGitty({
 			username: "octocat",
 			state: state({ gittyClass: "earth", growthStage: "mature" }),
 		});
-		expect(earthMature).toContain("gitty-earth");
-		expect(earthMature).toContain("gitty-detail");
+		expect(earthMature).toContain("earth-leaf");
+		expect(earthMature).toContain("mature-forehead-echo");
 
 		const fireMature = renderGitty({
 			username: "octocat",
 			state: state({ gittyClass: "fire", growthStage: "mature" }),
 		});
-		expect((fireMature.match(/gitty-flame/g)?.length ?? 0) > 1).toBe(true);
+		expect((fireMature.match(/fire-flame/g)?.length ?? 0) > 1).toBe(true);
 
 		const psyAdult = renderGitty({
 			username: "octocat",
 			state: state({ gittyClass: "psy", growthStage: "adult" }),
 		});
-		expect(psyAdult).toContain("gitty-orbit");
-		expect(psyAdult).toContain("gitty-psy");
+		expect(psyAdult).toContain("psy-particle");
+		expect(psyAdult).toContain('class="class-psy');
 	});
 
 	it("renders every listed face kind", () => {
@@ -164,10 +161,10 @@ describe("renderGitty", () => {
 			username: "octocat",
 			state: state({ growthStage: "adult", behavior: "playing" }),
 		});
-		expect(svg).toContain('class="gitty-playing"');
+		expect(svg).toContain('class="class-earth behavior-playing"');
 		expect(svg).toContain('class="gitty-tail"');
-		expect(svg).toContain('class="gitty-ear"');
-		expect(svg).not.toMatch(/class="gitty-ear" transform=/);
+		expect(svg).toContain('class="gitty-ears"');
+		expect(svg).not.toMatch(/class="gitty-ears" transform=/);
 		expect(svg).not.toMatch(/class="gitty-tail" transform=/);
 	});
 
@@ -176,11 +173,10 @@ describe("renderGitty", () => {
 			username: "octocat",
 			state: state({ growthStage: "adult", behavior: "idle" }),
 		});
-		const shadowAt = svg.indexOf('class="gitty-shadow gitty-shadow-idle"');
-		const motionAt = svg.indexOf('class="gitty-idle"');
+		const shadowAt = svg.indexOf('class="gitty-shadow"');
+		const characterAt = svg.indexOf('class="gitty-character"');
 		expect(shadowAt).toBeGreaterThan(-1);
-		expect(motionAt).toBeGreaterThan(shadowAt);
-		expect(svg).toContain("gitty-shadow-bob");
+		expect(characterAt).toBeGreaterThan(shadowAt);
 	});
 
 	it("renders every class, stage, hunger, mood, and behavior as valid SVG", () => {
@@ -197,7 +193,7 @@ describe("renderGitty", () => {
 							expect(svg).toContain(`data-gitty-class="${gittyClass}"`);
 							expect(svg).toContain(`data-gitty-body="${growthStage}"`);
 							expect(svg.length).toBeGreaterThan(200);
-							expect(svg.length).toBeLessThan(14_000);
+							expect(svg.length).toBeLessThan(16_000);
 						}
 					}
 				}
@@ -212,6 +208,7 @@ describe("renderErrorSvg", () => {
 		expect(svg).toContain("<svg");
 		expect(svg).toContain("Gitty is hiding.");
 		expect(svg).toContain(`fill="${CARD_FILL}"`);
+		expect(svg).toContain(`stroke="${CARD_STROKE}"`);
 		expect(svg).not.toContain("stack");
 	});
 });
