@@ -90,6 +90,31 @@ Everyone starts as an egg. Growth and class art is ready in the renderer.
 	<img src="docs/screenshots/class-psy.svg" width="96" alt="Psy">
 </p>
 
+<p align="center">
+	<img src="docs/screenshots/mood-sad.svg" width="96" alt="Sad">
+	<img src="docs/screenshots/mood-grumpy.svg" width="96" alt="Grumpy">
+	<img src="docs/screenshots/mood-neutral.svg" width="96" alt="Neutral">
+	<img src="docs/screenshots/mood-happy.svg" width="96" alt="Happy">
+	<img src="docs/screenshots/mood-excited.svg" width="96" alt="Excited">
+</p>
+
+<p align="center">
+	<img src="docs/screenshots/hunger-full.svg" width="96" alt="Full">
+	<img src="docs/screenshots/hunger-normal.svg" width="96" alt="Normal">
+	<img src="docs/screenshots/hunger-hungry.svg" width="96" alt="Hungry">
+	<img src="docs/screenshots/hunger-very_hungry.svg" width="96" alt="Very hungry">
+</p>
+
+<p align="center">
+	<img src="docs/screenshots/behavior-idle.svg" width="96" alt="Idle">
+	<img src="docs/screenshots/behavior-eating.svg" width="96" alt="Eating">
+	<img src="docs/screenshots/behavior-playing.svg" width="96" alt="Playing">
+	<img src="docs/screenshots/behavior-sleepy.svg" width="96" alt="Sleepy">
+	<img src="docs/screenshots/behavior-sleeping.svg" width="96" alt="Sleeping">
+	<img src="docs/screenshots/behavior-resting.svg" width="96" alt="Resting">
+	<img src="docs/screenshots/behavior-hibernating.svg" width="96" alt="Hibernating">
+</p>
+
 GitHub fetching, the domain engine, and the D1 repository exist in the repo but are not wired to HTTP yet.
 
 ## Development

@@ -1,7 +1,7 @@
 import type { VisiblePetState } from "@gittygotchi/domain";
 import { GITTY_STYLE } from "./animations.ts";
 import { motionClass, renderBehaviorExtras } from "./behavior.ts";
-import { bodyScale, renderBody } from "./body.ts";
+import { bodyScale, renderBody, renderGroundShadow } from "./body.ts";
 import { CARD_FILL, CARD_STROKE } from "./card.ts";
 import { renderClassEffects } from "./class-effects.ts";
 import { compactSvg } from "./compact.ts";
@@ -43,8 +43,9 @@ export function renderGitty(options: GittySvgOptions): string {
 	${GITTY_STYLE}
 	<rect width="240" height="240" rx="28" fill="${CARD_FILL}" stroke="${CARD_STROKE}" stroke-width="3"/>
 	<g transform="translate(120 150) scale(${scale}) translate(-120 -150)">
+		${renderGroundShadow(state.growthStage, palette, state.behavior)}
 		<g class="${motionClass(state.behavior)}">
-			${renderBody(state.growthStage, palette)}
+			${renderBody(state.growthStage, palette, state.gittyClass)}
 			${renderClassEffects(state.gittyClass, palette, state.growthStage)}
 			${renderFace(face, palette, state.growthStage)}
 			${renderBehaviorExtras(state.behavior, palette)}

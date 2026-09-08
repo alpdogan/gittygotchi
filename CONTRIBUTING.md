@@ -86,7 +86,7 @@ Phase 8 polishes character art: distinct Egg through Mature silhouettes, class t
 pnpm --filter @gittygotchi/svg export-screenshots
 ```
 
-Open `docs/screenshots/gallery.html` to compare the paper card on GitHub light (`#ffffff`) and dark (`#0d1117`).
+Open `docs/screenshots/gallery.html` to compare every stage, class, mood, hunger, and behavior on GitHub light (`#ffffff`) and dark (`#0d1117`). The README only shows the stage and class rows; the gallery is the full visual QA sheet.
 
 ## Production domain
 

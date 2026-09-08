@@ -50,17 +50,17 @@ function isHappy(mood: Mood): boolean {
 export function faceAnchor(stage: GrowthStage): { left: number; right: number; y: number } {
 	switch (stage) {
 		case "egg":
-			return { left: 104, right: 136, y: 128 };
+			return { left: 104, right: 136, y: 126 };
 		case "hatchling":
-			return { left: 106, right: 134, y: 116 };
+			return { left: 106, right: 134, y: 118 };
 		case "baby":
-			return { left: 104, right: 136, y: 136 };
+			return { left: 104, right: 136, y: 140 };
 		case "young":
-			return { left: 103, right: 137, y: 134 };
+			return { left: 104, right: 136, y: 122 };
 		case "adult":
-			return { left: 102, right: 138, y: 136 };
+			return { left: 102, right: 138, y: 120 };
 		case "mature":
-			return { left: 102, right: 138, y: 134 };
+			return { left: 102, right: 138, y: 116 };
 		default: {
 			const exhaustive: never = stage;
 			return exhaustive;
@@ -123,9 +123,13 @@ export function renderFace(face: FaceKind, palette: ClassPalette, stage: GrowthS
 
 	if (face === "happy") {
 		return `
-			<path d="M${left - 8} ${y + 2} q8 8 16 0" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>
-			<path d="M${right - 8} ${y + 2} q8 8 16 0" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>
-			<path d="M110 ${y + 22} q10 12 20 0" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>`;
+			<circle cx="${left}" cy="${y}" r="7" fill="${ink}"/>
+			<circle cx="${right}" cy="${y}" r="7" fill="${ink}"/>
+			<circle cx="${left + 2}" cy="${y - 2.2}" r="2.3" fill="#fff7ea"/>
+			<circle cx="${right + 2}" cy="${y - 2.2}" r="2.3" fill="#fff7ea"/>
+			<ellipse cx="${left - 10}" cy="${y + 10}" rx="6" ry="3.5" fill="${palette.accent}" opacity="0.35"/>
+			<ellipse cx="${right + 10}" cy="${y + 10}" rx="6" ry="3.5" fill="${palette.accent}" opacity="0.35"/>
+			<path d="M108 ${y + 20} q12 14 24 0" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>`;
 	}
 
 	return `
@@ -133,5 +137,7 @@ export function renderFace(face: FaceKind, palette: ClassPalette, stage: GrowthS
 		<circle cx="${right}" cy="${y}" r="7" fill="${ink}"/>
 		<circle cx="${left + 2}" cy="${y - 2}" r="2.2" fill="#fff7ea"/>
 		<circle cx="${right + 2}" cy="${y - 2}" r="2.2" fill="#fff7ea"/>
+		<ellipse cx="${left - 9}" cy="${y + 10}" rx="5" ry="3" fill="${palette.accent}" opacity="0.22"/>
+		<ellipse cx="${right + 9}" cy="${y + 10}" rx="5" ry="3" fill="${palette.accent}" opacity="0.22"/>
 		<path d="M110 ${y + 24} q10 8 20 0" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>`;
 }

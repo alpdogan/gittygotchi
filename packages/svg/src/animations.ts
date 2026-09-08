@@ -13,6 +13,12 @@ export const GITTY_STYLE = `<style>
 	.gitty-psy { animation: gitty-float 2.8s ease-in-out infinite; }
 	.gitty-zzz { animation: gitty-fade 2.2s ease-in-out infinite; }
 	.gitty-orbit { animation: gitty-spin 6s linear infinite; }
+	.gitty-shadow-idle { animation: gitty-shadow-bob 2.6s ease-in-out infinite; }
+	.gitty-shadow-playing { animation: gitty-shadow-play 0.7s ease-in-out infinite; }
+	.gitty-shadow-eating { animation: gitty-shadow-nibble 0.55s ease-in-out infinite; }
+	.gitty-shadow-resting { animation: gitty-shadow-bob 4s ease-in-out infinite; }
+	.gitty-shadow-sleepy { animation: gitty-shadow-bob 3.4s ease-in-out infinite; }
+	.gitty-shadow-sleeping, .gitty-shadow-hibernating { animation: gitty-shadow-breathe 4.8s ease-in-out infinite; }
 	@keyframes gitty-bob {
 		0%, 100% { transform: translateY(0); }
 		50% { transform: translateY(-4px); }
@@ -57,6 +63,23 @@ export const GITTY_STYLE = `<style>
 	@keyframes gitty-spin {
 		to { transform: rotate(360deg); }
 	}
+	@keyframes gitty-shadow-bob {
+		0%, 100% { transform: scale(1); }
+		50% { transform: scale(0.72); }
+	}
+	@keyframes gitty-shadow-play {
+		0%, 100% { transform: scale(1); }
+		30% { transform: scale(0.58); }
+		70% { transform: scale(0.82); }
+	}
+	@keyframes gitty-shadow-nibble {
+		0%, 100% { transform: scale(1); }
+		50% { transform: scale(1.12); }
+	}
+	@keyframes gitty-shadow-breathe {
+		0%, 100% { transform: scale(1); }
+		50% { transform: scale(1.05); }
+	}
 	@media (max-width: 96px) {
 		.gitty-detail { display: none; }
 	}
@@ -64,6 +87,8 @@ export const GITTY_STYLE = `<style>
 		.gitty-idle, .gitty-playing, .gitty-eating, .gitty-resting, .gitty-sleepy,
 		.gitty-sleeping, .gitty-hibernating, .gitty-bubble, .gitty-flame, .gitty-spark,
 		.gitty-psy, .gitty-zzz, .gitty-orbit, .gitty-playing .gitty-tail,
-		.gitty-idle .gitty-ear, .gitty-playing .gitty-ear { animation: none; }
+		.gitty-idle .gitty-ear, .gitty-playing .gitty-ear,
+		.gitty-shadow-idle, .gitty-shadow-playing, .gitty-shadow-eating, .gitty-shadow-resting,
+		.gitty-shadow-sleepy, .gitty-shadow-sleeping, .gitty-shadow-hibernating { animation: none; }
 	}
 </style>`;

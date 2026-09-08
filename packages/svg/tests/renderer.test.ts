@@ -64,8 +64,9 @@ describe("renderGitty", () => {
 		expect(svg).toContain(`fill="${CARD_FILL}"`);
 		expect(svg).toContain(`stroke="${CARD_STROKE}"`);
 		expect(svg).toMatch(
-			/<g transform="translate\(120 150\) scale\([^)]+\) translate\(-120 -150\)"><g class="gitty-idle">/,
+			/<g transform="translate\(120 150\) scale\([^)]+\) translate\(-120 -150\)"><g transform="translate\(120 198\)"><g class="gitty-shadow gitty-shadow-idle">/,
 		);
+		expect(svg).not.toContain('class="gitty-ear"');
 		expect(svg).not.toContain("XP");
 		expect(svg).not.toContain("Level");
 		expect(svg.length).toBeGreaterThan(0);
@@ -168,6 +169,18 @@ describe("renderGitty", () => {
 		expect(svg).toContain('class="gitty-ear"');
 		expect(svg).not.toMatch(/class="gitty-ear" transform=/);
 		expect(svg).not.toMatch(/class="gitty-tail" transform=/);
+	});
+
+	it("keeps the ground shadow outside character motion", () => {
+		const svg = renderGitty({
+			username: "octocat",
+			state: state({ growthStage: "adult", behavior: "idle" }),
+		});
+		const shadowAt = svg.indexOf('class="gitty-shadow gitty-shadow-idle"');
+		const motionAt = svg.indexOf('class="gitty-idle"');
+		expect(shadowAt).toBeGreaterThan(-1);
+		expect(motionAt).toBeGreaterThan(shadowAt);
+		expect(svg).toContain("gitty-shadow-bob");
 	});
 
 	it("renders every class, stage, hunger, mood, and behavior as valid SVG", () => {
