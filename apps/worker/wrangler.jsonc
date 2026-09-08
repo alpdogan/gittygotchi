@@ -1,0 +1,25 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "gittygotchi",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-09-08",
+	"workers_dev": true,
+	"observability": {
+		"enabled": true,
+		"logs": {
+			"invocation_logs": true,
+			"head_sampling_rate": 1
+		}
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "gittygotchi",
+			// Paste the UUID printed by `wrangler d1 create gittygotchi` here.
+			// This value is a local placeholder, not a real Cloudflare database ID.
+			"database_id": "00000000-0000-4000-8000-000000000000",
+			"preview_database_id": "gittygotchi-local",
+			"migrations_dir": "migrations"
+		}
+	]
+}

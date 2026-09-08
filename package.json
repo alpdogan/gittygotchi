@@ -1,0 +1,30 @@
+{
+	"name": "gittygotchi",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "A tiny creature that lives on your GitHub profile.",
+	"packageManager": "pnpm@12.3.4",
+	"engines": {
+		"node": ">=24"
+	},
+	"scripts": {
+		"prepare": "lefthook install",
+		"format": "biome check --write .",
+		"format:check": "biome format .",
+		"lint": "biome lint .",
+		"typecheck": "pnpm -r typecheck",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"check": "biome ci . && pnpm typecheck && vitest run",
+		"dev": "pnpm --filter @gittygotchi/worker dev",
+		"deploy": "pnpm --filter @gittygotchi/worker deploy"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.12",
+		"lefthook": "2.1.12",
+		"typescript": "5.9.3",
+		"vitest": "4.1.11"
+	}
+}

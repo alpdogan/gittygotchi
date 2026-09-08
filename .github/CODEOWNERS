@@ -1,0 +1,7 @@
+* @alpdogan
+
+/.github/workflows/ @alpdogan
+/apps/worker/migrations/ @alpdogan
+/apps/worker/src/storage/ @alpdogan
+/apps/worker/src/github/ @alpdogan
+/apps/worker/wrangler.jsonc @alpdogan

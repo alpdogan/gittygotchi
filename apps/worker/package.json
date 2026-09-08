@@ -1,0 +1,23 @@
+{
+	"name": "@gittygotchi/worker",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy",
+		"types": "wrangler types",
+		"typecheck": "tsc --noEmit && tsc --noEmit -p tests/tsconfig.json"
+	},
+	"dependencies": {
+		"@gittygotchi/config": "workspace:*",
+		"@gittygotchi/domain": "workspace:*",
+		"@gittygotchi/svg": "workspace:*"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-plugin": "1.1.6",
+		"typescript": "5.9.3",
+		"vitest": "4.1.11",
+		"wrangler": "4.130.0"
+	}
+}

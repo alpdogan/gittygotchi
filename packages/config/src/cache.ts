@@ -1,0 +1,3 @@
+export const SVG_CACHE_TTL_SECONDS = 10 * 60;
+
+export const CONTRIBUTION_FRESHNESS_TTL_SECONDS = 20 * 60;

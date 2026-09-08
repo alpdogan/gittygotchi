@@ -1,0 +1,43 @@
+name: Bug report
+description: Something is wrong with GittyGotchi
+body:
+  - type: markdown
+    attributes:
+      value: Never include secrets, tokens, cookies, or private logs.
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+    validations:
+      required: true
+  - type: input
+    id: github_username
+    attributes:
+      label: GitHub username if relevant
+  - type: input
+    id: gitty_url
+    attributes:
+      label: Gitty URL if relevant
+      placeholder: https://gittygotchi.alpdogan.co/alpdogan
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Browser, Wrangler version, or GitHub README
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs
+      description: Remove secrets, tokens, and personal data before pasting.

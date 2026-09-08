@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest a change to GittyGotchi
+body:
+  - type: markdown
+    attributes:
+      value: Never include secrets or tokens.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+  - type: textarea
+    id: mechanics
+    attributes:
+      label: Impact on pet mechanics
+      description: Class, growth, hunger, weekends, hibernation, or rarity.
