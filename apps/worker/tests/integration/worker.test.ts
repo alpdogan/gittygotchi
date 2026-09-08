@@ -21,6 +21,7 @@ describe("GittyGotchi worker", () => {
 		expect(html).not.toContain("Psy is rare");
 		expect(html).toContain("overflow-wrap: anywhere");
 		expect(html).toContain("word-break: break-all");
+		expect(html).toContain("preview shows an adult Gitty");
 	});
 
 	it("prefills the landing generator from a username query", async () => {
@@ -61,7 +62,7 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("View @alpdogan on GitHub");
 		expect(html).toContain("Star GittyGotchi on GitHub");
 		expect(html).toContain("Get my Gitty");
-		expect(html).toContain("Preview egg");
+		expect(html).toContain("Preview adult");
 		expect(html).toContain('content="https://gittygotchi.alpdogan.co/alpdogan.svg"');
 	});
 
@@ -73,9 +74,9 @@ describe("GittyGotchi worker", () => {
 		expect(response.status).toBe(200);
 		expect(response.headers.get("content-type")).toContain("image/svg+xml");
 		expect(svg).toContain("<svg");
-		expect(svg).toContain('data-gitty-stage="egg"');
-		expect(svg).toContain('data-prototype-stage="egg"');
-		expect(svg).toContain("stage-egg");
+		expect(svg).toContain('data-gitty-stage="adult"');
+		expect(svg).toContain('data-prototype-stage="adult"');
+		expect(svg).toContain("earth-leaf");
 		expect(svg).toContain("@alpdogan");
 		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});
@@ -85,7 +86,7 @@ describe("GittyGotchi worker", () => {
 			new Request("https://gittygotchi.alpdogan.co/alpdogan.svg?utm=readme"),
 		);
 		expect(response.status).toBe(200);
-		expect(await response.text()).toContain('data-gitty-stage="egg"');
+		expect(await response.text()).toContain('data-gitty-stage="adult"');
 		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});
 

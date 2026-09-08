@@ -45,7 +45,7 @@ This is not a microservices repo. The workspace exists so domain rules, SVG rend
 
 - `@gittygotchi/worker` — HTTP, GitHub adapters, D1 repository, and SVG cache; live pet path not wired
 - `@gittygotchi/domain` — types and deterministic rules
-- `@gittygotchi/svg` — composable renderer with distinct growth silhouettes; HTTP still serves a preview egg
+- `@gittygotchi/svg` — approved prototype renderer; HTTP still serves a preview adult Gitty
 - `@gittygotchi/config` — TTLs, growth thresholds, class bands, public origin
 
 ## Request lifecycle
@@ -61,7 +61,7 @@ GET /{username}.svg
     miss: render preview SVG, store for 10 minutes
 ```
 
-The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the composable renderer with a preview egg. Cache hits on `PetSvg` skip that entrypoint. The gateway still validates the username so query strings cannot poison the key.
+The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the approved prototype renderer with a preview adult Gitty. Cache hits on `PetSvg` skip that entrypoint. The gateway still validates the username so query strings cannot poison the key.
 
 Later:
 
@@ -126,7 +126,7 @@ Do not `UPDATE pets SET views = views + 1`. Cache hits never reach the Worker. A
 
 ## SVG architecture
 
-Gitty is composed from the approved prototype renderer: shared species anatomy, class treatments, faces, behavior props, and stage-aware effects. HTTP still serves a preview egg; live class and growth are not wired.
+Gitty is composed from the approved prototype renderer: shared species anatomy, class treatments, faces, behavior props, and stage-aware effects. HTTP still serves a preview adult Gitty; live class and growth are not wired.
 
 ## Clickable README strategy
 
@@ -152,5 +152,5 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 - Phase 5: SVG foundation — done
 - Phase 6: cache — done; live pet path still unwired
 - Phase 7: landing/share polish — done; live pet path still unwired
-- Phase 8: visual polish — done; HTTP still serves a preview egg
+- Phase 8: visual polish — done; HTTP still serves a preview adult Gitty
 - Phase 9: production domain, ruleset, protected deploys

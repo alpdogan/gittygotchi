@@ -12,6 +12,7 @@ import {
 	CARD_STROKE,
 	escapeXml,
 	FACE_KINDS,
+	FOUNDATION_PREVIEW_STATE,
 	renderErrorSvg,
 	renderGitty,
 	resolveFace,
@@ -51,6 +52,24 @@ describe("resolveFace", () => {
 });
 
 describe("renderGitty", () => {
+	it("uses adult happy Earth as the HTTP preview", () => {
+		expect(FOUNDATION_PREVIEW_STATE).toEqual({
+			gittyClass: "earth",
+			growthStage: "adult",
+			hunger: "normal",
+			mood: "happy",
+			behavior: "idle",
+		});
+		const svg = renderGitty({
+			username: "alpdogan",
+			state: FOUNDATION_PREVIEW_STATE,
+			preview: true,
+		});
+		expect(svg).toContain('data-gitty-stage="adult"');
+		expect(svg).toContain("earth-leaf");
+		expect(svg).toContain("A preview adult Gitty");
+	});
+
 	it("returns a compact accessible SVG from the approved prototype", () => {
 		const svg = renderGitty({ username: "alpdogan", state: state({ growthStage: "egg" }) });
 		expect(svg.startsWith("<?xml")).toBe(true);

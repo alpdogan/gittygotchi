@@ -31,7 +31,7 @@ export function renderLandingPage(rawUsername?: string | null): string {
 				</div>
 			</div>
 		</div>
-		<p class="notice">Character stages and classes are drawn. Live class and growth are not connected yet, so this preview is still an egg.</p>
+		<p class="notice">Character stages and classes are drawn. Live class and growth are not connected yet, so this preview shows an adult Gitty.</p>
 
 		<section class="card">
 			<p>Primary example: <a href="/${EXAMPLE_USERNAME}">@${EXAMPLE_USERNAME}</a></p>
@@ -41,7 +41,7 @@ export function renderLandingPage(rawUsername?: string | null): string {
 		</section>
 
 		<h2 id="own">Get your own Gitty</h2>
-		<p>Type a GitHub username, preview the egg, then copy the Markdown into your profile README.</p>
+		<p>Type a GitHub username, preview the Gitty, then copy the Markdown into your profile README.</p>
 		${renderGittyForm({
 			inputId: "username",
 			markdownId: "markdown",
