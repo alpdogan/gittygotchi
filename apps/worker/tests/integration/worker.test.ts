@@ -18,6 +18,7 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("Copy Markdown");
 		expect(html).toContain("Open Gitty page");
 		expect(html).toContain('property="og:image"');
+		expect(html).not.toContain("Psy is rare");
 	});
 
 	it("prefills the landing generator from a username query", async () => {

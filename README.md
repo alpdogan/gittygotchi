@@ -34,7 +34,7 @@ Activity after adoption determines growth.
 
 Earth, Water, Air, and Fire are equal normal classes. None of them is stronger than the others.
 
-Psy is rare. Older GitHub accounts have a higher chance to hatch Psy. Age never guarantees Psy, and class does not change after adoption.
+Class is assigned at adoption and does not change afterward.
 
 ## States
 

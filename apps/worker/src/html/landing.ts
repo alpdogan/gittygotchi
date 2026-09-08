@@ -75,7 +75,6 @@ export function renderLandingPage(rawUsername?: string | null): string {
 			<span class="chip" data-class="fire">Fire</span>
 			<span class="chip" data-class="psy">Psy</span>
 		</div>
-		<p class="muted">Earth, Water, Air, and Fire are equal normal classes. Psy is rare.</p>
 		`,
 	});
 }
