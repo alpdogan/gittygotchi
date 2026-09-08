@@ -89,6 +89,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 	padding: 1.1rem;
 	margin: 1rem 0;
 }
+pre {
+	max-width: 100%;
+	overflow-x: auto;
+	padding-bottom: 0.25rem;
+}
 .gitty-frame {
 	display: block;
 	width: min(100%, 240px);
