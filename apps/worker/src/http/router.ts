@@ -1,14 +1,18 @@
 import { parseGitHubUsername } from "@gittygotchi/domain";
+import { dispatchPetSvg } from "../cache/pet-cache.ts";
 import { healthResponse } from "./health.ts";
 import { landingResponse } from "./landing.ts";
-import { errorSvgResponse, petSvgResponse } from "./pet-svg.ts";
+import { errorSvgResponse } from "./pet-svg.ts";
 import { methodNotAllowed, notFound } from "./response.ts";
 import { robotsResponse } from "./robots.ts";
 import { invalidUsernamePageResponse, userPageResponse } from "./user-page.ts";
 
 const GET_HEAD = "GET, HEAD";
 
-export function handleRequest(request: Request): Response {
+export function handleRequest(
+	request: Request,
+	ctx: ExecutionContext,
+): Promise<Response> | Response {
 	const url = new URL(request.url);
 	const pathname = pathnameWithoutTrailingSlash(url.pathname);
 
@@ -38,7 +42,7 @@ export function handleRequest(request: Request): Response {
 		if (!parsed.ok) {
 			return errorSvgResponse("invalid_username", rawUsername);
 		}
-		return petSvgResponse(parsed.username);
+		return dispatchPetSvg(ctx, parsed.username);
 	}
 
 	const parsed = parseGitHubUsername(pathname.slice(1));

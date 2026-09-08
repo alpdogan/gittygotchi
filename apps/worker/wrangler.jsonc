@@ -11,6 +11,13 @@
 			"head_sampling_rate": 1
 		}
 	},
+	"cache": {
+		"enabled": true
+	},
+	"exports": {
+		"default": { "type": "worker", "cache": { "enabled": false } },
+		"PetSvg": { "type": "worker", "cache": { "enabled": true } }
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",

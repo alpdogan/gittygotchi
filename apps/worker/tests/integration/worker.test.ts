@@ -48,6 +48,23 @@ describe("GittyGotchi worker", () => {
 		expect(svg).toContain("<svg");
 		expect(svg).toContain('data-gitty-stage="egg"');
 		expect(svg).toContain("@alpdogan");
+		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
+	});
+
+	it("canonicalizes SVG query strings onto the same pet path", async () => {
+		const response = await worker.fetch(
+			new Request("https://gittygotchi.alpdogan.co/alpdogan.svg?utm=readme"),
+		);
+		expect(response.status).toBe(200);
+		expect(await response.text()).toContain('data-gitty-stage="egg"');
+		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
+	});
+
+	it("does not cache HTML or health responses", async () => {
+		const landing = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/"));
+		const health = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/health"));
+		expect(landing.headers.get("cache-control")).toBe("no-store");
+		expect(health.headers.get("cache-control")).toBe("no-store");
 	});
 
 	it("returns an error SVG for an invalid username image request", async () => {
@@ -59,6 +76,7 @@ describe("GittyGotchi worker", () => {
 		expect(response.headers.get("content-type")).toContain("image/svg+xml");
 		expect(svg).toContain("Gitty is hiding.");
 		expect(svg.startsWith("{")).toBe(false);
+		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});
 
 	it("rejects invalid username pages", async () => {

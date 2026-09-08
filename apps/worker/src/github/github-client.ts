@@ -1,4 +1,5 @@
 import {
+	CONTRIBUTION_FRESHNESS_TTL_SECONDS,
 	GITHUB_CONTRIBUTIONS_MAX_BYTES,
 	GITHUB_CONTRIBUTIONS_TIMEOUT_MS,
 	GITHUB_USER_AGENT,
@@ -9,6 +10,11 @@ import type { GitHubAdapterError, GitHubResult } from "./errors.ts";
 import { readLimitedText, timeoutSignal } from "./read-body.ts";
 import { githubContributionsUrl, githubUserUrl } from "./urls.ts";
 
+export type GitHubSubrequestCache = {
+	cacheEverything?: boolean;
+	cacheTtl?: number;
+};
+
 export type GitHubFetch = (
 	input: string,
 	init: {
@@ -16,6 +22,7 @@ export type GitHubFetch = (
 		headers: Record<string, string>;
 		redirect: "follow";
 		signal: AbortSignal;
+		cf?: GitHubSubrequestCache;
 	},
 ) => Promise<Response>;
 
@@ -48,6 +55,7 @@ async function getText(options: {
 	maxBytes: number;
 	accept: string;
 	notFoundUsername?: string;
+	cache?: GitHubSubrequestCache;
 }): Promise<GitHubResult<string>> {
 	if (options.url === undefined) {
 		return { ok: false, error: { type: "invalid_username" } };
@@ -63,6 +71,7 @@ async function getText(options: {
 			},
 			redirect: "follow",
 			signal: timeoutSignal(options.timeoutMs),
+			...(options.cache === undefined ? {} : { cf: options.cache }),
 		});
 	} catch {
 		return unavailable();
@@ -118,6 +127,10 @@ export function createGitHubClient(options: {
 				maxBytes: GITHUB_CONTRIBUTIONS_MAX_BYTES,
 				accept: "text/html",
 				notFoundUsername: username.trim().toLowerCase(),
+				cache: {
+					cacheEverything: true,
+					cacheTtl: CONTRIBUTION_FRESHNESS_TTL_SECONDS,
+				},
 			});
 		},
 	};

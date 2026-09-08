@@ -1,3 +1,5 @@
+import { SVG_CACHE_CONTROL } from "../cache/headers.ts";
+
 export function jsonResponse(data: unknown, status = 200): Response {
 	return new Response(JSON.stringify(data), {
 		status,
@@ -28,12 +30,12 @@ export function textResponse(body: string, contentType: string, status = 200): R
 	});
 }
 
-export function svgResponse(svg: string, status = 200): Response {
+export function svgResponse(svg: string, status = 200, cacheControl = SVG_CACHE_CONTROL): Response {
 	return new Response(svg, {
 		status,
 		headers: {
 			"content-type": "image/svg+xml; charset=utf-8",
-			"cache-control": "public, max-age=60",
+			"cache-control": cacheControl,
 		},
 	});
 }

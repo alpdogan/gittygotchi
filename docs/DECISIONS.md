@@ -47,3 +47,7 @@ GitHub may proxy SVGs and drop internal links. The product snippet wraps `/{user
 ## ADR-011 — Same Worker serves landing, share pages, and SVG
 
 The viral loop is two paired URLs. One origin, one deploy, one username validator.
+
+## ADR-012 — Workers Caching in front of the SVG entrypoint
+
+README traffic should miss GitHub and D1. Enable Workers Caching on a dedicated `PetSvg` entrypoint and keep the gateway uncached so username validation and query-string stripping always run. Honor RFC 9111 `Cache-Control`. Contribution freshness lives on the pet row; GitHub HTML subrequests also use a 20-minute edge TTL. The Cache API is not the primary store: it still invokes the Worker on every request and does not collapse concurrent misses.

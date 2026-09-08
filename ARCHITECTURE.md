@@ -43,22 +43,25 @@ The discovery loop is `/{username}.svg` next to `/{username}`. Splitting those o
 
 This is not a microservices repo. The workspace exists so domain rules, SVG rendering, and config constants can be tested without the Worker runtime, while the Worker remains the only deployable.
 
-- `@gittygotchi/worker` — HTTP, GitHub adapters, and D1 repository; live pet path not wired
+- `@gittygotchi/worker` — HTTP, GitHub adapters, D1 repository, and SVG cache; live pet path not wired
 - `@gittygotchi/domain` — types and deterministic rules
 - `@gittygotchi/svg` — composable foundation renderer
 - `@gittygotchi/config` — TTLs, growth thresholds, class bands, public origin
 
 ## Request lifecycle
 
-Phase 1–5:
+Phase 1–6:
 
 ```text
 GET /{username}.svg
   validate username
-  return foundation SVG
+  gateway (uncached)
+  PetSvg entrypoint cache
+    hit: return SVG
+    miss: render foundation SVG, store for 10 minutes
 ```
 
-The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the composable foundation renderer with a preview egg.
+The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the composable foundation renderer with a preview egg. Cache hits on `PetSvg` skip that entrypoint. The gateway still validates the username so query strings cannot poison the key.
 
 Later:
 
@@ -99,7 +102,13 @@ Earth/Water/Air/Fire are equal. Psy is rare and never guaranteed. Growth require
 
 ## Caching and stale behavior
 
-Cache constants live in `packages/config/src/cache.ts`. If GitHub is down, serve known state. Image routes always return SVG.
+Cache constants live in `packages/config/src/cache.ts`. SVG TTL is 10 minutes. Contribution freshness is 20 minutes. GitHub `created_at` is stored forever after adoption.
+
+Workers Caching sits in front of the `PetSvg` entrypoint. The default gateway is uncached: it validates the username, strips query strings, and dispatches `GET /{username}.svg` to `PetSvg`. Cache keys use the normalized lowercase path, not hostname or query string. HTML, health, and 503 error SVGs are `no-store`. Invalid-username images may be cached. GitHub 404 images use a 60-second TTL.
+
+If GitHub is down, serve known state. Order: fresh SVG cache, stored pet, stale contribution timestamps on the pet row, then upstream GitHub. Parser failure is not zero activity. Image routes always return SVG.
+
+GitHub contribution fetches ask Cloudflare to cache the HTML for the freshness TTL (`cf.cacheTtl` + `cacheEverything`) so repeated origin misses do not all hit GitHub. Do not log every healthy cache hit.
 
 ## First-view adoption
 
@@ -141,7 +150,7 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 - Phase 3: domain engine — done, not wired to HTTP
 - Phase 4: D1 repository — done, not wired to HTTP
 - Phase 5: SVG foundation — done; final character still needs approval
-- Phase 6: cache
+- Phase 6: cache — done; live pet path still unwired
 - Phase 7: landing/share polish
 - Phase 8: visual polish by approval
 - Phase 9: production domain, ruleset, protected deploys

@@ -1,4 +1,9 @@
-import { GITHUB_API_ORIGIN, GITHUB_USER_AGENT, GITHUB_WEB_ORIGIN } from "@gittygotchi/config";
+import {
+	CONTRIBUTION_FRESHNESS_TTL_SECONDS,
+	GITHUB_API_ORIGIN,
+	GITHUB_USER_AGENT,
+	GITHUB_WEB_ORIGIN,
+} from "@gittygotchi/config";
 import { describe, expect, it } from "vitest";
 import { createContributionProvider } from "../../src/github/contribution-provider.ts";
 import { createGitHubClient } from "../../src/github/github-client.ts";
@@ -111,8 +116,12 @@ describe("ContributionProvider", () => {
 		const provider = createContributionProvider({
 			now: () => new Date("2026-09-08T12:00:00.000Z"),
 			client: createGitHubClient({
-				fetch: async (url) => {
+				fetch: async (url, init) => {
 					expect(url).toBe(`${GITHUB_WEB_ORIGIN}/users/alpdogan/contributions`);
+					expect(init.cf).toEqual({
+						cacheEverything: true,
+						cacheTtl: CONTRIBUTION_FRESHNESS_TTL_SECONDS,
+					});
 					return new Response(loadGithubFixture("contributions-future-days.html"), {
 						status: 200,
 						headers: { "content-type": "text/html" },

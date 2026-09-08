@@ -1,5 +1,7 @@
 export {
 	CONTRIBUTION_FRESHNESS_TTL_SECONDS,
+	isContributionFresh,
+	NOT_FOUND_SVG_CACHE_TTL_SECONDS,
 	SVG_CACHE_TTL_SECONDS,
 } from "./cache.ts";
 export type { PsyProbabilityBand } from "./class-probabilities.ts";
