@@ -36,6 +36,8 @@ body {
 .skip:focus { left: 0.8rem; top: 0.8rem; z-index: 2; }
 .site-header, main, .site-footer {
 	width: min(52rem, calc(100% - 2rem));
+	max-width: 100%;
+	min-width: 0;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -88,11 +90,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 	border-radius: 1.1rem;
 	padding: 1.1rem;
 	margin: 1rem 0;
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
-pre {
+pre, pre code {
+	display: block;
+	margin: 0;
+	width: 100%;
+	min-width: 0;
 	max-width: 100%;
-	overflow-x: auto;
-	padding-bottom: 0.25rem;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	word-break: break-all;
+	font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+	font-size: 0.88rem;
+	line-height: 1.45;
 }
 .gitty-frame {
 	display: block;
@@ -140,7 +152,12 @@ input, textarea {
 	background: #fff;
 	color: var(--ink);
 }
-textarea { min-height: 5.4rem; resize: vertical; }
+textarea {
+	min-height: 5.4rem;
+	resize: vertical;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
 .row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.7rem; }
 button, .button {
 	appearance: none;
