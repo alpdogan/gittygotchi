@@ -38,7 +38,7 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("View @alpdogan on GitHub");
 	});
 
-	it("serves a placeholder SVG for a valid username", async () => {
+	it("serves a foundation Gitty SVG for a valid username", async () => {
 		const response = await worker.fetch(
 			new Request("https://gittygotchi.alpdogan.co/alpdogan.svg"),
 		);
@@ -46,7 +46,8 @@ describe("GittyGotchi worker", () => {
 		expect(response.status).toBe(200);
 		expect(response.headers.get("content-type")).toContain("image/svg+xml");
 		expect(svg).toContain("<svg");
-		expect(svg).toContain("placeholder");
+		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain("@alpdogan");
 	});
 
 	it("returns an error SVG for an invalid username image request", async () => {

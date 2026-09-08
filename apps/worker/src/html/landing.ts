@@ -16,9 +16,9 @@ export function renderLandingPage(): string {
 		<section class="card">
 			<p>Primary example: <a href="/${EXAMPLE_USERNAME}">@${EXAMPLE_USERNAME}</a></p>
 			<a href="/${EXAMPLE_USERNAME}">
-				<img class="gitty-frame" src="/${EXAMPLE_USERNAME}.svg" alt="GittyGotchi placeholder for @${EXAMPLE_USERNAME}">
+				<img class="gitty-frame" src="/${EXAMPLE_USERNAME}.svg" alt="GittyGotchi for @${EXAMPLE_USERNAME}">
 			</a>
-			<p class="muted">This Phase 1 preview is a placeholder egg. The live Gitty renderer comes later.</p>
+			<p class="muted">This is the foundation Gitty renderer. Live class and growth are not connected yet.</p>
 			<pre><code>${escapeHtml(snippet)}</code></pre>
 			<p class="muted">Generic usage:</p>
 			<pre><code>${escapeHtml(readmeSnippet("YOUR_USERNAME"))}</code></pre>
@@ -28,7 +28,7 @@ export function renderLandingPage(): string {
 		<form class="card" data-gitty-form action="#" method="get">
 			<label for="username">GitHub username</label>
 			<input id="username" name="username" data-username-input maxlength="39" spellcheck="false" placeholder="YOUR_USERNAME" value="${EXAMPLE_USERNAME}" autocomplete="username">
-			<img class="gitty-frame" data-gitty-preview src="/${EXAMPLE_USERNAME}.svg" alt="GittyGotchi placeholder for @${EXAMPLE_USERNAME}">
+			<img class="gitty-frame" data-gitty-preview src="/${EXAMPLE_USERNAME}.svg" alt="GittyGotchi for @${EXAMPLE_USERNAME}">
 			<label for="markdown">Generated Markdown</label>
 			<textarea id="markdown" data-markdown readonly>${escapeHtml(snippet)}</textarea>
 			<div class="row">

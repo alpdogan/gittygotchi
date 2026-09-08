@@ -155,7 +155,11 @@ importers:
         specifier: workspace:*
         version: link:../config
 
-  packages/svg: {}
+  packages/svg:
+    dependencies:
+      '@gittygotchi/domain':
+        specifier: workspace:*
+        version: link:../domain
 
 packages:
 

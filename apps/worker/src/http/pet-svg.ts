@@ -1,9 +1,15 @@
 import type { ErrorSvgKind } from "@gittygotchi/svg";
-import { renderErrorSvg, renderPlaceholderGitty } from "@gittygotchi/svg";
+import { FOUNDATION_PREVIEW_STATE, renderErrorSvg, renderGitty } from "@gittygotchi/svg";
 import { svgResponse } from "./response.ts";
 
-export function placeholderSvgResponse(username: string): Response {
-	return svgResponse(renderPlaceholderGitty({ username }));
+export function petSvgResponse(username: string): Response {
+	return svgResponse(
+		renderGitty({
+			username,
+			state: FOUNDATION_PREVIEW_STATE,
+			preview: true,
+		}),
+	);
 }
 
 export function errorSvgResponse(kind: ErrorSvgKind, username?: string): Response {

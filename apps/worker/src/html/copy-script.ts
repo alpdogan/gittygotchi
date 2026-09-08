@@ -24,7 +24,7 @@ export function copyEnhancementScript(): string {
 			markdown.value = snippet(username);
 			if (preview) {
 				preview.src = "/" + username + ".svg";
-				preview.alt = "GittyGotchi placeholder for @" + username;
+				preview.alt = "GittyGotchi for @" + username;
 			}
 		};
 

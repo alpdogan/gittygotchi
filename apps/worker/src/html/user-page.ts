@@ -13,11 +13,11 @@ export function renderUserPage(username: string): string {
 		body: `
 		<p class="muted"><a href="/">GittyGotchi</a></p>
 		<h1>@${safe}'s Gitty</h1>
-		<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi placeholder for @${safe}">
+		<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi for @${safe}">
 		<p><strong>Class:</strong> Coming soon</p>
-		<p><strong>Current visible state:</strong> Placeholder</p>
+		<p><strong>Current visible state:</strong> Foundation preview</p>
 		<p><strong>Growth:</strong> Egg</p>
-		<p class="muted">This page is shareable. Exact formulas stay private. The SVG is a Phase 1 placeholder.</p>
+		<p class="muted">This page is shareable. Exact formulas stay private. Live class and growth are not connected yet.</p>
 		<p>
 			<a href="https://github.com/${safe}">View @${safe} on GitHub</a>
 			·
@@ -28,7 +28,7 @@ export function renderUserPage(username: string): string {
 		<form class="card" data-gitty-form action="#" method="get">
 			<label for="own-username">GitHub username</label>
 			<input id="own-username" name="username" data-username-input maxlength="39" spellcheck="false" placeholder="YOUR_USERNAME" value="${EXAMPLE_USERNAME}" autocomplete="username">
-			<img class="gitty-frame" data-gitty-preview src="/${EXAMPLE_USERNAME}.svg" alt="GittyGotchi placeholder for @${EXAMPLE_USERNAME}">
+			<img class="gitty-frame" data-gitty-preview src="/${EXAMPLE_USERNAME}.svg" alt="GittyGotchi for @${EXAMPLE_USERNAME}">
 			<label for="own-markdown">Generated Markdown</label>
 			<textarea id="own-markdown" data-markdown readonly>${escapeHtml(ownSnippet)}</textarea>
 			<div class="row">

@@ -43,22 +43,22 @@ The discovery loop is `/{username}.svg` next to `/{username}`. Splitting those o
 
 This is not a microservices repo. The workspace exists so domain rules, SVG rendering, and config constants can be tested without the Worker runtime, while the Worker remains the only deployable.
 
-- `@gittygotchi/worker` — HTTP, GitHub adapters, and D1 repository; routes still placeholder
+- `@gittygotchi/worker` — HTTP, GitHub adapters, and D1 repository; live pet path not wired
 - `@gittygotchi/domain` — types and deterministic rules
-- `@gittygotchi/svg` — rendering
+- `@gittygotchi/svg` — composable foundation renderer
 - `@gittygotchi/config` — TTLs, growth thresholds, class bands, public origin
 
 ## Request lifecycle
 
-Phase 1–4:
+Phase 1–5:
 
 ```text
 GET /{username}.svg
   validate username
-  return placeholder SVG
+  return foundation SVG
 ```
 
-The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet.
+The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the composable foundation renderer with a preview egg.
 
 Later:
 
@@ -117,7 +117,7 @@ Do not `UPDATE pets SET views = views + 1`. Cache hits never reach the Worker. A
 
 ## SVG architecture
 
-Gitty is composed from body, class, face, behavior, and effects layers. Phase 1 only ships a placeholder egg so routing and README embedding can be demonstrated. Animation is CSS/SMIL progressive enhancement.
+Gitty is composed from body, class, face, behavior, and effects layers. Phase 5 ships egg and hatchling foundation art with Neutral, Happy, Hungry, and Sleeping faces plus simple class treatments. Later stages reuse the hatchling silhouette until visual polish. Animation is CSS progressive enhancement. This is not the final character.
 
 ## Clickable README strategy
 
@@ -140,7 +140,7 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 - Phase 2: GitHub adapter and parser — done, not wired to HTTP
 - Phase 3: domain engine — done, not wired to HTTP
 - Phase 4: D1 repository — done, not wired to HTTP
-- Phase 5: SVG foundation after character design
+- Phase 5: SVG foundation — done; final character still needs approval
 - Phase 6: cache
 - Phase 7: landing/share polish
 - Phase 8: visual polish by approval
