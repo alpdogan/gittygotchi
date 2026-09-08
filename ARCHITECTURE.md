@@ -50,13 +50,15 @@ This is not a microservices repo. The workspace exists so domain rules, SVG rend
 
 ## Request lifecycle
 
-Phase 1:
+Phase 1 and 2:
 
 ```text
 GET /{username}.svg
   validate username
   return placeholder SVG
 ```
+
+The GitHub adapter exists and is tested. Routes do not call it yet.
 
 Later:
 
@@ -87,7 +89,7 @@ Two public sources:
 
 The public Events API is the wrong source because private-repo work can be invisible there while still appearing on the contribution calendar.
 
-The contribution HTML is undocumented. Parser failure is not "zero activity". It is an error, and stored state wins.
+The contribution HTML is undocumented. Parser failure is not "zero activity". It is an error, and stored state wins. The parser lives in `apps/worker/src/github/` and is covered by fixtures under `fixtures/github/`. CI never calls live GitHub.
 
 ## Class and growth
 

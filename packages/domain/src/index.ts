@@ -6,6 +6,14 @@ export {
 	NORMAL_GITTY_CLASSES,
 	RARE_GITTY_CLASS,
 } from "./class.ts";
+export type { ContributionDay, ContributionLevel } from "./contribution.ts";
+export {
+	CONTRIBUTION_LEVELS,
+	excludeFutureContributionDays,
+	isContributionLevel,
+	isIsoCalendarDate,
+	utcCalendarDate,
+} from "./contribution.ts";
 export type { GrowthStage } from "./growth.ts";
 export { GROWTH_STAGES, isGrowthStage } from "./growth.ts";
 export type { Behavior, Hunger, Mood } from "./state.ts";

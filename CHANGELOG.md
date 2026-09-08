@@ -9,4 +9,5 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ### Added
 
+- Phase 2 GitHub adapter: public user API client, contribution calendar fetcher, HTML parser, fixtures, and typed errors. Routes still serve the placeholder SVG.
 - Phase 1 repository foundation: pnpm workspace, Worker HTTP routes, placeholder landing and share pages, D1 schema, CI, and documentation.

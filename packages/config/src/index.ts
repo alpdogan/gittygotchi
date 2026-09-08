@@ -9,6 +9,15 @@ export {
 	EQUAL_NORMAL_CLASSES,
 	PSY_PROBABILITY_BANDS,
 } from "./class-probabilities.ts";
+export {
+	GITHUB_API_ORIGIN,
+	GITHUB_CONTRIBUTIONS_MAX_BYTES,
+	GITHUB_CONTRIBUTIONS_TIMEOUT_MS,
+	GITHUB_USER_AGENT,
+	GITHUB_USER_MAX_BYTES,
+	GITHUB_USER_TIMEOUT_MS,
+	GITHUB_WEB_ORIGIN,
+} from "./github.ts";
 export type { GrowthThreshold } from "./growth.ts";
 export { GROWTH_THRESHOLDS } from "./growth.ts";
 export {
