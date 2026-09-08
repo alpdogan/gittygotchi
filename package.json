@@ -19,7 +19,7 @@
 		"test:coverage": "vitest run --coverage",
 		"check": "biome ci . && pnpm typecheck && vitest run",
 		"dev": "pnpm --filter @gittygotchi/worker dev",
-		"deploy": "pnpm --filter @gittygotchi/worker deploy"
+		"deploy": "./scripts/deploy-production.sh"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.12",
