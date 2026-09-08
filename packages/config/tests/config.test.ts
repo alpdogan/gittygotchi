@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { EQUAL_NORMAL_CLASSES, PSY_PROBABILITY_BANDS, readmeSnippet } from "../src/index.ts";
+import {
+	EQUAL_NORMAL_CLASSES,
+	GROWTH_THRESHOLDS,
+	PSY_PROBABILITY_BANDS,
+	readmeSnippet,
+} from "../src/index.ts";
 
 describe("class probability table", () => {
 	it("keeps Earth, Water, Air, and Fire as equal normal classes", () => {
@@ -12,6 +17,28 @@ describe("class probability table", () => {
 			expect(band.psyProbability).toBeLessThan(1);
 			const remaining = 1 - band.psyProbability;
 			expect(remaining / EQUAL_NORMAL_CLASSES.length).toBeCloseTo(remaining / 4);
+		}
+	});
+});
+
+describe("growth thresholds", () => {
+	it("requires both elapsed days and distinct active days, strictly increasing", () => {
+		const ordered = [
+			GROWTH_THRESHOLDS.egg,
+			GROWTH_THRESHOLDS.hatchling,
+			GROWTH_THRESHOLDS.baby,
+			GROWTH_THRESHOLDS.young,
+			GROWTH_THRESHOLDS.adult,
+			GROWTH_THRESHOLDS.mature,
+		];
+		for (let index = 1; index < ordered.length; index += 1) {
+			const previous = ordered[index - 1];
+			const current = ordered[index];
+			if (previous === undefined || current === undefined) {
+				throw new Error("growth threshold table is incomplete");
+			}
+			expect(current.minElapsedDays).toBeGreaterThan(previous.minElapsedDays);
+			expect(current.minActiveDays).toBeGreaterThan(previous.minActiveDays);
 		}
 	});
 });

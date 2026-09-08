@@ -67,7 +67,7 @@ flowchart TD
   domain --> svg[SVG Renderer]
 ```
 
-Phase 1 serves landing and share pages plus a clearly labeled placeholder SVG. GitHub fetching, class assignment, growth, caching, and the real renderer arrive in later phases.
+The Worker still serves placeholder pages and SVG. GitHub fetching and the domain engine exist in the repo but are not wired to HTTP yet. Caching, D1 adoption, and the real renderer arrive in later phases.
 
 ## Development
 

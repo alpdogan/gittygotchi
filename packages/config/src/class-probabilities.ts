@@ -1,5 +1,3 @@
-import { NORMAL_GITTY_CLASSES } from "@gittygotchi/domain";
-
 export type PsyProbabilityBand = {
 	maxInclusiveYears: number | null;
 	psyProbability: number;
@@ -18,4 +16,4 @@ export const PSY_PROBABILITY_BANDS: readonly PsyProbabilityBand[] = [
 	{ maxInclusiveYears: null, psyProbability: 0.18 },
 ];
 
-export const EQUAL_NORMAL_CLASSES = NORMAL_GITTY_CLASSES;
+export const EQUAL_NORMAL_CLASSES = ["earth", "water", "air", "fire"] as const;

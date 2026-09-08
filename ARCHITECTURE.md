@@ -43,14 +43,14 @@ The discovery loop is `/{username}.svg` next to `/{username}`. Splitting those o
 
 This is not a microservices repo. The workspace exists so domain rules, SVG rendering, and config constants can be tested without the Worker runtime, while the Worker remains the only deployable.
 
-- `@gittygotchi/worker` — HTTP, later GitHub/D1 adapters
+- `@gittygotchi/worker` — HTTP and GitHub adapters; later D1
 - `@gittygotchi/domain` — types and deterministic rules
 - `@gittygotchi/svg` — rendering
 - `@gittygotchi/config` — TTLs, growth thresholds, class bands, public origin
 
 ## Request lifecycle
 
-Phase 1 and 2:
+Phase 1–3:
 
 ```text
 GET /{username}.svg
@@ -58,7 +58,7 @@ GET /{username}.svg
   return placeholder SVG
 ```
 
-The GitHub adapter exists and is tested. Routes do not call it yet.
+The GitHub adapter and domain engine exist and are tested. Routes do not call them yet.
 
 Later:
 
@@ -93,7 +93,9 @@ The contribution HTML is undocumented. Parser failure is not "zero activity". It
 
 ## Class and growth
 
-Class is rolled once from a stable seed, persisted, and never recalculated. Earth/Water/Air/Fire are equal. Psy is rare and age-weighted. Growth requires both elapsed time and distinct active days after adoption.
+Class is rolled once from a stable seed, persisted, and never recalculated. The seed is `username + githubCreatedAt + gittygotchi-class-v1`. SHA-256 supplies 53 bits of mantissa, divided by `2^53` to get a unit interval. If that roll is below the age-weighted Psy probability, the class is Psy. Otherwise the remainder splits equally among Earth, Water, Air, and Fire in that order. Age uses 365.25-day years at adoption time.
+
+Earth/Water/Air/Fire are equal. Psy is rare and never guaranteed. Growth requires both elapsed time and distinct active days after adoption. Account age does not grow the pet. Gitty never dies: long weekday inactivity becomes hibernation, and weekends are not neglect.
 
 ## Caching and stale behavior
 
@@ -133,8 +135,8 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 
 ## Future evolution
 
-- Phase 2: GitHub adapter and parser
-- Phase 3: domain engine
+- Phase 2: GitHub adapter and parser — done, not wired to HTTP
+- Phase 3: domain engine — done, not wired to HTTP
 - Phase 4: D1 repository
 - Phase 5: SVG foundation after character design
 - Phase 6: cache

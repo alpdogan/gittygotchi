@@ -147,13 +147,13 @@ importers:
         specifier: 4.130.0
         version: 4.130.0
 
-  packages/config:
-    dependencies:
-      '@gittygotchi/domain':
-        specifier: workspace:*
-        version: link:../domain
+  packages/config: {}
 
-  packages/domain: {}
+  packages/domain:
+    dependencies:
+      '@gittygotchi/config':
+        specifier: workspace:*
+        version: link:../config
 
   packages/svg: {}
 

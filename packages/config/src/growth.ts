@@ -1,5 +1,3 @@
-import type { GrowthStage } from "@gittygotchi/domain";
-
 export type GrowthThreshold = {
 	minElapsedDays: number;
 	minActiveDays: number;
@@ -12,4 +10,4 @@ export const GROWTH_THRESHOLDS = {
 	young: { minElapsedDays: 45, minActiveDays: 20 },
 	adult: { minElapsedDays: 120, minActiveDays: 50 },
 	mature: { minElapsedDays: 365, minActiveDays: 120 },
-} as const satisfies Record<GrowthStage, GrowthThreshold>;
+} as const;
