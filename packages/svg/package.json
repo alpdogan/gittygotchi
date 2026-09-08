@@ -8,7 +8,8 @@
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"export-screenshots": "node --experimental-strip-types scripts/export-screenshots.ts"
+		"export-screenshots": "node --experimental-strip-types scripts/export-screenshots.ts",
+		"export-class-prototype": "node --experimental-strip-types scripts/export-variation-prototype.ts"
 	},
 	"dependencies": {
 		"@gittygotchi/domain": "workspace:*"

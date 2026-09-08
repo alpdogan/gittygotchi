@@ -15,7 +15,8 @@
 			"!!**/pnpm-lock.yaml",
 			"!!**/worker-configuration.d.ts",
 			"!!**/fixtures",
-			"!!**/docs/screenshots"
+			"!!**/docs/screenshots",
+			"!!**/docs/prototype"
 		]
 	},
 	"formatter": {

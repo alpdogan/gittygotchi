@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GittyGotchi visual variation prototype</title>
+	<style>
+		:root { color-scheme: dark; font-family: ui-sans-serif, system-ui, sans-serif; }
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body { margin: 0; background: #0d1725; color: #eef4fa; }
+		main { width: min(1440px, 100%); margin: auto; padding: 38px 28px 70px; }
+		header { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
+		h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.8rem); letter-spacing: -.035em; }
+		h2 { margin: 44px 0 14px; font-size: 1.25rem; }
+		h3 { margin: 26px 0 10px; text-transform: capitalize; color: #8bd8e8; font-size: 1rem; }
+		p { margin: 8px 0 0; color: #aebdd0; max-width: 760px; line-height: 1.5; }
+		nav { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 0; background: color-mix(in srgb, #0d1725 92%, transparent); backdrop-filter: blur(10px); }
+		nav a { color: #aebdd0; text-decoration: none; border: 1px solid #293a50; border-radius: 999px; padding: 6px 10px; font-size: .82rem; }
+		.badge { color: #8bd8e8; border: 1px solid #36516a; border-radius: 999px; padding: 8px 12px; white-space: nowrap; }
+		.card-grid { display: grid; grid-template-columns: repeat(5, minmax(170px, 1fr)); gap: 14px; }
+		.card { margin: 0; background: #152235; border: 1px solid #293a50; border-radius: 17px; padding: 12px; }
+		.card img { display: block; width: 100%; height: auto; border-radius: 12px; }
+		figcaption { text-transform: capitalize; margin-top: 9px; display: flex; justify-content: space-between; gap: 8px; color: #c9d5e3; font-size: .88rem; }
+		figcaption span { color: #7f91a8; font-size: .76rem; align-self: center; }
+		.small-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+		.small-grid .card { padding: 9px; }
+		.small-grid .card img { width: 128px; height: 128px; }
+		.small-grid figcaption { justify-content: center; }
+		@media (max-width: 1050px) { .card-grid { grid-template-columns: repeat(3, 1fr); } }
+		@media (max-width: 680px) {
+			main { padding: 24px 16px 48px; }
+			header { align-items: start; flex-direction: column; }
+			.card-grid { grid-template-columns: 1fr 1fr; }
+		}
+		@media (max-width: 440px) { .card-grid { grid-template-columns: 1fr; } }
+	</style>
+</head>
+<body>
+	<main>
+		<header>
+			<div>
+				<h1>Gitty variation prototype</h1>
+				<p>Class-approved shared species system expanded into growth, expression, hunger, and behavior examples. Still isolated from the production renderer.</p>
+			</div>
+			<div class="badge">Example gallery</div>
+		</header>
+		<nav>
+			<a href="#classes">Classes</a><a href="#sizes">128px</a><a href="#silhouettes">Silhouettes</a><a href="#stages">Growth</a>
+			<a href="#moods">Moods</a><a href="#hunger">Hunger</a><a href="#behaviors">Behaviors</a>
+			<a href="#effect-progression">Effects</a><a href="#matrix">Stage × class</a>
+		</nav>
+
+		<section id="classes"><h2>Adult + Happy classes</h2><div class="card-grid">
+				<figure class="card">
+					<img src="earth.svg" width="240" height="240" alt="earth">
+					<figcaption><strong>earth</strong><span>8467 bytes</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="water.svg" width="240" height="240" alt="water">
+					<figcaption><strong>water</strong><span>9196 bytes</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="air.svg" width="240" height="240" alt="air">
+					<figcaption><strong>air</strong><span>8771 bytes</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="fire.svg" width="240" height="240" alt="fire">
+					<figcaption><strong>fire</strong><span>9579 bytes</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="psy.svg" width="240" height="240" alt="psy">
+					<figcaption><strong>psy</strong><span>9454 bytes</span></figcaption>
+				</figure></div></section>
+		<section id="sizes"><h2>128px readability</h2><div class="small-grid">
+				<figure class="card">
+					<img src="earth.svg" width="240" height="240" alt="earth">
+					<figcaption><strong>earth</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="water.svg" width="240" height="240" alt="water">
+					<figcaption><strong>water</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="air.svg" width="240" height="240" alt="air">
+					<figcaption><strong>air</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="fire.svg" width="240" height="240" alt="fire">
+					<figcaption><strong>fire</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="psy.svg" width="240" height="240" alt="psy">
+					<figcaption><strong>psy</strong></figcaption>
+				</figure></div></section>
+		<section id="silhouettes">
+			<h2>Adult → Mature silhouettes · 128px</h2>
+			<p>Mature keeps the Gitty spiral tail, asymmetric ears, cheek contour, compact torso, and paws while developing a fuller final-form stance with compact ribbon-leaf wings.</p>
+			<div class="small-grid">
+				<figure class="card">
+					<img src="silhouette.svg" width="240" height="240" alt="adult silhouette">
+					<figcaption><strong>adult silhouette</strong><span>canonical form</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="silhouette-mature.svg" width="240" height="240" alt="mature silhouette">
+					<figcaption><strong>mature silhouette</strong><span>final form</span></figcaption>
+				</figure></div>
+		</section>
+		<section id="stages"><h2>Growth stages · Neutral egg, then Earth</h2><div class="card-grid">
+				<figure class="card">
+					<img src="stages/egg.svg" width="240" height="240" alt="egg">
+					<figcaption><strong>egg</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="stages/hatchling.svg" width="240" height="240" alt="hatchling">
+					<figcaption><strong>hatchling</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="stages/baby.svg" width="240" height="240" alt="baby">
+					<figcaption><strong>baby</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="stages/young.svg" width="240" height="240" alt="young">
+					<figcaption><strong>young</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="stages/adult.svg" width="240" height="240" alt="adult">
+					<figcaption><strong>adult</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="stages/mature.svg" width="240" height="240" alt="mature">
+					<figcaption><strong>mature</strong></figcaption>
+				</figure></div></section>
+		<section id="moods"><h2>Moods · Adult Earth</h2><div class="card-grid">
+				<figure class="card">
+					<img src="moods/sad.svg" width="240" height="240" alt="sad">
+					<figcaption><strong>sad</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="moods/grumpy.svg" width="240" height="240" alt="grumpy">
+					<figcaption><strong>grumpy</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="moods/neutral.svg" width="240" height="240" alt="neutral">
+					<figcaption><strong>neutral</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="moods/happy.svg" width="240" height="240" alt="happy">
+					<figcaption><strong>happy</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="moods/excited.svg" width="240" height="240" alt="excited">
+					<figcaption><strong>excited</strong></figcaption>
+				</figure></div></section>
+		<section id="hunger"><h2>Hunger · Adult Earth</h2><div class="card-grid">
+				<figure class="card">
+					<img src="hunger/full.svg" width="240" height="240" alt="full">
+					<figcaption><strong>full</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="hunger/normal.svg" width="240" height="240" alt="normal">
+					<figcaption><strong>normal</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="hunger/hungry.svg" width="240" height="240" alt="hungry">
+					<figcaption><strong>hungry</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="hunger/very_hungry.svg" width="240" height="240" alt="very hungry">
+					<figcaption><strong>very hungry</strong></figcaption>
+				</figure></div></section>
+		<section id="behaviors"><h2>Behaviors · Adult Earth</h2><div class="card-grid">
+				<figure class="card">
+					<img src="behaviors/idle.svg" width="240" height="240" alt="idle">
+					<figcaption><strong>idle</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="behaviors/eating.svg" width="240" height="240" alt="eating">
+					<figcaption><strong>eating</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="behaviors/playing.svg" width="240" height="240" alt="playing">
+					<figcaption><strong>playing</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="behaviors/sleepy.svg" width="240" height="240" alt="sleepy">
+					<figcaption><strong>sleepy</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="behaviors/sleeping.svg" width="240" height="240" alt="sleeping">
+					<figcaption><strong>sleeping</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="behaviors/resting.svg" width="240" height="240" alt="resting">
+					<figcaption><strong>resting</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="behaviors/hibernating.svg" width="240" height="240" alt="hibernating">
+					<figcaption><strong>hibernating</strong></figcaption>
+				</figure></div></section>
+		<section id="effect-progression">
+			<h2>Adult → Mature anatomy and effect progression</h2>
+			<p>Adult remains the canonical mid-final form. Mature adds hand-authored final-form anatomy with shared fantasy wings, a developed forehead motif, the richest surface markings, and a composable second effect tier; Baby and Young remain surface-only.</p>
+			
+		<h3>adult class effects</h3>
+		<div class="card-grid">
+				<figure class="card">
+					<img src="matrix/adult-earth.svg" width="240" height="240" alt="adult earth">
+					<figcaption><strong>adult earth</strong><span>moderate tier</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-water.svg" width="240" height="240" alt="adult water">
+					<figcaption><strong>adult water</strong><span>moderate tier</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-air.svg" width="240" height="240" alt="adult air">
+					<figcaption><strong>adult air</strong><span>moderate tier</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-fire.svg" width="240" height="240" alt="adult fire">
+					<figcaption><strong>adult fire</strong><span>moderate tier</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-psy.svg" width="240" height="240" alt="adult psy">
+					<figcaption><strong>adult psy</strong><span>moderate tier</span></figcaption>
+				</figure></div>
+		<h3>mature class effects</h3>
+		<div class="card-grid">
+				<figure class="card">
+					<img src="matrix/mature-earth.svg" width="240" height="240" alt="mature earth">
+					<figcaption><strong>mature earth</strong><span>adult + mature tiers</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-water.svg" width="240" height="240" alt="mature water">
+					<figcaption><strong>mature water</strong><span>adult + mature tiers</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-air.svg" width="240" height="240" alt="mature air">
+					<figcaption><strong>mature air</strong><span>adult + mature tiers</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-fire.svg" width="240" height="240" alt="mature fire">
+					<figcaption><strong>mature fire</strong><span>adult + mature tiers</span></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-psy.svg" width="240" height="240" alt="mature psy">
+					<figcaption><strong>mature psy</strong><span>adult + mature tiers</span></figcaption>
+				</figure></div>
+		</section>
+		<section id="matrix"><h2>Stage × class matrix</h2>
+		<h3>hatchling</h3>
+		<div class="card-grid">
+				<figure class="card">
+					<img src="matrix/hatchling-earth.svg" width="240" height="240" alt="earth">
+					<figcaption><strong>earth</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/hatchling-water.svg" width="240" height="240" alt="water">
+					<figcaption><strong>water</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/hatchling-air.svg" width="240" height="240" alt="air">
+					<figcaption><strong>air</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/hatchling-fire.svg" width="240" height="240" alt="fire">
+					<figcaption><strong>fire</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/hatchling-psy.svg" width="240" height="240" alt="psy">
+					<figcaption><strong>psy</strong></figcaption>
+				</figure></div>
+		<h3>baby</h3>
+		<div class="card-grid">
+				<figure class="card">
+					<img src="matrix/baby-earth.svg" width="240" height="240" alt="earth">
+					<figcaption><strong>earth</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/baby-water.svg" width="240" height="240" alt="water">
+					<figcaption><strong>water</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/baby-air.svg" width="240" height="240" alt="air">
+					<figcaption><strong>air</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/baby-fire.svg" width="240" height="240" alt="fire">
+					<figcaption><strong>fire</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/baby-psy.svg" width="240" height="240" alt="psy">
+					<figcaption><strong>psy</strong></figcaption>
+				</figure></div>
+		<h3>young</h3>
+		<div class="card-grid">
+				<figure class="card">
+					<img src="matrix/young-earth.svg" width="240" height="240" alt="earth">
+					<figcaption><strong>earth</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/young-water.svg" width="240" height="240" alt="water">
+					<figcaption><strong>water</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/young-air.svg" width="240" height="240" alt="air">
+					<figcaption><strong>air</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/young-fire.svg" width="240" height="240" alt="fire">
+					<figcaption><strong>fire</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/young-psy.svg" width="240" height="240" alt="psy">
+					<figcaption><strong>psy</strong></figcaption>
+				</figure></div>
+		<h3>adult</h3>
+		<div class="card-grid">
+				<figure class="card">
+					<img src="matrix/adult-earth.svg" width="240" height="240" alt="earth">
+					<figcaption><strong>earth</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-water.svg" width="240" height="240" alt="water">
+					<figcaption><strong>water</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-air.svg" width="240" height="240" alt="air">
+					<figcaption><strong>air</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-fire.svg" width="240" height="240" alt="fire">
+					<figcaption><strong>fire</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/adult-psy.svg" width="240" height="240" alt="psy">
+					<figcaption><strong>psy</strong></figcaption>
+				</figure></div>
+		<h3>mature</h3>
+		<div class="card-grid">
+				<figure class="card">
+					<img src="matrix/mature-earth.svg" width="240" height="240" alt="earth">
+					<figcaption><strong>earth</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-water.svg" width="240" height="240" alt="water">
+					<figcaption><strong>water</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-air.svg" width="240" height="240" alt="air">
+					<figcaption><strong>air</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-fire.svg" width="240" height="240" alt="fire">
+					<figcaption><strong>fire</strong></figcaption>
+				</figure>
+				<figure class="card">
+					<img src="matrix/mature-psy.svg" width="240" height="240" alt="psy">
+					<figcaption><strong>psy</strong></figcaption>
+				</figure></div></section>
+	</main>
+</body>
+</html>
