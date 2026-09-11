@@ -134,7 +134,7 @@ pnpm --filter @gittygotchi/worker exec wrangler versions list
 curl --fail --show-error --silent https://gittygotchi.alpdogan.co/ >/dev/null
 ```
 
-Inspect a version and roll Worker code back with Wrangler 4.130.0:
+Inspect a version and roll Worker code back with Wrangler 4.131.1:
 
 ```bash
 pnpm --filter @gittygotchi/worker exec wrangler versions view <VERSION_ID>
