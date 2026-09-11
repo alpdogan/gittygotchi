@@ -31,7 +31,7 @@ export function renderLandingPage(rawUsername?: string | null): string {
 				</div>
 			</div>
 		</div>
-		<p class="notice">Character stages and classes are drawn. Live class and growth are not connected yet, so this preview shows an adult Gitty.</p>
+		<p class="notice">Everyone starts as an egg. The first visit creates a Gitty; class is assigned then, and growth starts from that moment.</p>
 
 		<section class="card">
 			<p>Primary example: <a href="/${EXAMPLE_USERNAME}">@${EXAMPLE_USERNAME}</a></p>

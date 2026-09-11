@@ -9,6 +9,7 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ### Added
 
+- Live HTTP path: first `/{username}` or `/{username}.svg` visit fetches public GitHub `created_at`, inserts a D1 pet, and renders stored egg state. Later visits refresh contributions, run growth, and draw the stored Gitty instead of the hardcoded preview.
 - Phase 8 visual polish: distinct Egg through Mature silhouettes, richer class traits, extra faces, motion, SVG compacting, and README screenshots. Live class and growth are not connected yet.
 - Phase 7 landing and share polish: discovery-focused landing, public share page, username generator with copy and no-JS fallback, and Open Graph tags. Live class and growth are not connected yet.
 - Phase 6 cache: Workers Caching on the SVG entrypoint, 10-minute SVG TTL, 20-minute contribution freshness, stale GitHub fallback policy, and contribution HTML subrequest cache. Live class and growth are not connected yet.

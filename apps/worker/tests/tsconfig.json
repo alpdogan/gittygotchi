@@ -6,6 +6,7 @@
 	"include": [
 		"./env.d.ts",
 		"./apply-migrations.ts",
+		"./install-github-mock.ts",
 		"./integration/**/*.ts",
 		"../src/**/*.ts",
 		"../worker-configuration.d.ts"

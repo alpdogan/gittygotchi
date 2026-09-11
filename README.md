@@ -67,7 +67,7 @@ flowchart TD
   domain --> svg[SVG Renderer]
 ```
 
-The Worker serves a polished landing page and share pages plus a cached preview adult Gitty SVG. The renderer can draw every growth stage and class; live pet state is not wired to HTTP yet.
+The Worker serves a polished landing page and share pages plus a cached SVG rendered from stored pet state. The first `/{username}` or `/{username}.svg` visit creates the D1 row.
 
 ## Looks
 
@@ -115,7 +115,7 @@ Everyone starts as an egg. Growth and class art is ready in the renderer.
 	<img src="docs/screenshots/behavior-hibernating.svg" width="96" alt="Hibernating">
 </p>
 
-GitHub fetching, the domain engine, and the D1 repository exist in the repo but are not wired to HTTP yet.
+GitHub fetching, the domain engine, and the D1 repository are wired to HTTP. CI still mocks GitHub.
 
 ## Development
 

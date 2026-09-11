@@ -79,13 +79,13 @@ Remote migrations are a production operation. Apply them manually immediately be
 corresponding Worker deploy. Wrangler records applied migrations; do not attempt to reverse them
 with a Worker rollback.
 
-Phase 4 adds a D1 repository. Routes still do not read or write D1 at runtime.
+Phase 4 added a D1 repository. The live HTTP path now adopts on first visit.
 
-Phase 6 caches foundation SVGs for 10 minutes on the `PetSvg` entrypoint. HTML stays `no-store`. GitHub and D1 are still not on the HTTP path.
+Phase 6 caches live SVGs for 10 minutes on the `PetSvg` entrypoint. HTML stays `no-store`. The first cache miss must adopt and persist.
 
 Phase 7 polishes the landing and share pages. The copy/discovery loop is the product.
 
-Phase 8 polishes character art through the approved prototype renderer. HTTP still serves a preview adult Gitty. After changing SVG markup, regenerate README samples:
+Phase 8 polishes character art through the approved prototype renderer. After changing SVG markup, regenerate README samples:
 
 ```bash
 pnpm --filter @gittygotchi/svg export-screenshots

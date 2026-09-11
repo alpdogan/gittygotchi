@@ -11,6 +11,7 @@ const GET_HEAD = "GET, HEAD";
 
 export function handleRequest(
 	request: Request,
+	env: Env,
 	ctx: ExecutionContext,
 ): Promise<Response> | Response {
 	const url = new URL(request.url);
@@ -50,7 +51,7 @@ export function handleRequest(
 		return invalidUsernamePageResponse();
 	}
 
-	return userPageResponse(parsed.username);
+	return userPageResponse(env, parsed.username);
 }
 
 function pathnameWithoutTrailingSlash(pathname: string): string {

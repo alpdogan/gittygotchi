@@ -1,14 +1,19 @@
 import type { ErrorSvgKind } from "@gittygotchi/svg";
-import { FOUNDATION_PREVIEW_STATE, renderErrorSvg, renderGitty } from "@gittygotchi/svg";
+import { renderErrorSvg, renderGitty } from "@gittygotchi/svg";
 import { errorSvgCacheControl } from "../cache/headers.ts";
+import { resolveLivePetFromEnv } from "../pet/index.ts";
 import { svgResponse } from "./response.ts";
 
-export function petSvgResponse(username: string): Response {
+export async function petSvgResponse(env: Env, username: string): Promise<Response> {
+	const result = await resolveLivePetFromEnv(env, username);
+	if (!result.ok) {
+		return errorSvgResponse(result.error.kind, username);
+	}
+
 	return svgResponse(
 		renderGitty({
 			username,
-			state: FOUNDATION_PREVIEW_STATE,
-			preview: true,
+			state: result.view,
 		}),
 	);
 }

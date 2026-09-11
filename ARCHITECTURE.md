@@ -43,14 +43,12 @@ The discovery loop is `/{username}.svg` next to `/{username}`. Splitting those o
 
 This is not a microservices repo. The workspace exists so domain rules, SVG rendering, and config constants can be tested without the Worker runtime, while the Worker remains the only deployable.
 
-- `@gittygotchi/worker` — HTTP, GitHub adapters, D1 repository, and SVG cache; live pet path not wired
+- `@gittygotchi/worker` — HTTP, GitHub adapters, D1 repository, SVG cache, and the live pet path
 - `@gittygotchi/domain` — types and deterministic rules
-- `@gittygotchi/svg` — approved prototype renderer; HTTP still serves a preview adult Gitty
+- `@gittygotchi/svg` — approved prototype renderer; HTTP draws stored pet state
 - `@gittygotchi/config` — TTLs, growth thresholds, class bands, public origin
 
 ## Request lifecycle
-
-Phase 1–6:
 
 ```text
 GET /{username}.svg
@@ -58,24 +56,17 @@ GET /{username}.svg
   gateway (uncached)
   PetSvg entrypoint cache
     hit: return SVG
-    miss: render preview SVG, store for 10 minutes
+    miss:
+      D1 lookup
+      fetch public GitHub user and adopt if missing
+      refresh contributions if stale
+      calculate visible state
+      persist if growth changed
+      render SVG from stored VisiblePetState
+      store for 10 minutes
 ```
 
-The GitHub adapter, domain engine, and D1 repository exist and are tested. Routes do not call them yet. The SVG is the approved prototype renderer with a preview adult Gitty. Cache hits on `PetSvg` skip that entrypoint. The gateway still validates the username so query strings cannot poison the key.
-
-Later:
-
-```text
-GET /{username}.svg
-  validate username
-  edge cache
-  D1 lookup
-  adopt if missing
-  refresh contributions if stale
-  calculate visible state
-  render SVG
-  cache
-```
+Cache hits on `PetSvg` skip that entrypoint, so the first miss must adopt. The gateway still validates the username so query strings cannot poison the key. HTML `/{username}` is `no-store` and uses the same adopt/refresh path.
 
 Most README requests should terminate at the cache.
 
@@ -112,9 +103,11 @@ GitHub contribution fetches ask Cloudflare to cache the HTML for the freshness T
 
 ## First-view adoption
 
-Requesting `/{username}` or `/{username}.svg` may create that Gitty in later phases. That does not prove GitHub account ownership. Another person can trigger the first creation. Optional verification can be added later without changing the README snippet.
+Requesting `/{username}` or `/{username}.svg` creates that Gitty on first visit. That does not prove GitHub account ownership. Another person can trigger the first creation. Optional verification can be added later without changing the README snippet.
 
-The D1 adapter and `adoptPet()` live in `apps/worker/src/storage/`. HTTP routes do not call them yet. Class is written once and never appears in lifecycle updates. Unchanged growth fields are not rewritten.
+`github_created_at` is the public GitHub account timestamp. `born_at` / `created_at` are adoption time (first visit). Class is rolled once from username + `github_created_at` at adoption. Growth and egg reveal use elapsed time plus active days after `born_at`, not account age. First visit is an egg unless those adoption-time thresholds are already met, which they are not.
+
+Class is written once and never appears in lifecycle updates. Unchanged growth fields are not rewritten.
 
 ## Concurrency
 
@@ -126,7 +119,7 @@ Do not `UPDATE pets SET views = views + 1`. Cache hits never reach the Worker. A
 
 ## SVG architecture
 
-Gitty is composed from the approved prototype renderer: shared species anatomy, class treatments, faces, behavior props, and stage-aware effects. HTTP still serves a preview adult Gitty; live class and growth are not wired.
+Gitty is composed from the approved prototype renderer: shared species anatomy, class treatments, faces, behavior props, and stage-aware effects. HTTP renders stored visible state. Eggs stay visually unrevealed and omit hunger, mood, and sleep on the share page.
 
 ## Clickable README strategy
 
@@ -146,11 +139,12 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 
 ## Future evolution
 
-- Phase 2: GitHub adapter and parser — done, not wired to HTTP
-- Phase 3: domain engine — done, not wired to HTTP
-- Phase 4: D1 repository — done, not wired to HTTP
+- Phase 2: GitHub adapter and parser — done
+- Phase 3: domain engine — done
+- Phase 4: D1 repository — done
 - Phase 5: SVG foundation — done
-- Phase 6: cache — done; live pet path still unwired
-- Phase 7: landing/share polish — done; live pet path still unwired
-- Phase 8: visual polish — done; HTTP still serves a preview adult Gitty
+- Phase 6: cache — done; first `PetSvg` miss adopts
+- Phase 7: landing/share polish — done
+- Phase 8: visual polish — done
 - Phase 9: production domain, ruleset, protected deploys
+- Phase 10: live HTTP path — first visit inserts a pet; later visits refresh, grow, and render stored state
