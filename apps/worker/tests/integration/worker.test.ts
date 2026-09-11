@@ -21,7 +21,7 @@ describe("GittyGotchi worker", () => {
 		expect(html).not.toContain("Psy is rare");
 		expect(html).toContain("overflow-wrap: anywhere");
 		expect(html).toContain("word-break: break-all");
-		expect(html).toContain("preview shows the unrevealed egg");
+		expect(html).toContain("Everyone starts as an egg. The first visit creates a Gitty");
 		expect(html).not.toContain("preview shows an adult Gitty");
 		expect(html).not.toContain("Preview adult");
 	});
@@ -73,13 +73,15 @@ describe("GittyGotchi worker", () => {
 		expect(html).not.toContain("<dt>Mood</dt>");
 		expect(html).not.toContain("<dt>Sleep</dt>");
 		expect(html).not.toContain("<dd>Unrevealed</dd>");
+		expect(html).not.toContain("Coming soon");
+		expect(html).toContain('class="gitty-status"');
 		expect(html).toContain("width: min(100%, 240px)");
 		expect(html).toContain("grid-template-columns: repeat(2, minmax(0, 1fr))");
-		expect(html).toContain("every username currently shows the same unrevealed egg");
+		expect(html).toContain("growth starts after adoption");
 		expect(html).toContain('content="https://gittygotchi.alpdogan.co/alpdogan.svg"');
 	});
 
-	it("serves a preview Gitty SVG for a valid username", async () => {
+	it("serves a live egg SVG for a valid username", async () => {
 		const response = await worker.fetch(
 			new Request("https://gittygotchi.alpdogan.co/alpdogan.svg"),
 		);
@@ -93,6 +95,7 @@ describe("GittyGotchi worker", () => {
 		expect(svg).toContain('data-prototype-class="unrevealed"');
 		expect(svg).toContain("stage-egg");
 		expect(svg).not.toContain("earth-leaf");
+		expect(svg).not.toContain("A preview adult Gitty");
 		expect(svg).not.toContain("gitty-status-labels");
 		expect(svg).not.toContain(">Hunger<");
 		expect(svg).not.toContain(">Mood<");

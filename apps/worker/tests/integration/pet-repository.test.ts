@@ -2,7 +2,7 @@ import { env } from "cloudflare:workers";
 import { assignGittyClass, calculatePetState } from "@gittygotchi/domain";
 import { describe, expect, it } from "vitest";
 import { adoptPet } from "../../src/storage/adopt.ts";
-import { createD1PetRepository } from "../../src/storage/d1-pet-repository.ts";
+import { createD1PetRepository, isMissingPetsTable } from "../../src/storage/d1-pet-repository.ts";
 import {
 	lifecycleUpdateFromState,
 	parseStoredPet,
@@ -15,6 +15,16 @@ const now = new Date("2026-09-08T12:00:00.000Z");
 function repository() {
 	return createD1PetRepository(env.DB);
 }
+
+describe("isMissingPetsTable", () => {
+	it("recognizes a missing pets table without swallowing other D1 errors", () => {
+		expect(isMissingPetsTable(new Error("D1_ERROR: no such table: pets: SQLITE_ERROR"))).toBe(true);
+		expect(isMissingPetsTable(new Error("UNIQUE constraint failed: pets.github_username"))).toBe(
+			false,
+		);
+		expect(isMissingPetsTable(new Error("D1_ERROR: no such table: contribution_days"))).toBe(false);
+	});
+});
 
 describe("parseStoredPet", () => {
 	it("rejects malformed rows instead of guessing class or stage", () => {
@@ -155,6 +165,13 @@ describe("D1 pet repository", () => {
 		});
 		expect(skipped.updatedAt).toBe(saved.updatedAt);
 		expect(skipped.gittyClass).toBe(adopted.pet.gittyClass);
+	});
+
+	it("fails clearly when the pets table is missing", async () => {
+		await env.DB.prepare("DROP TABLE pets").run();
+		await expect(repository().getByUsername("alpdogan")).rejects.toThrow(
+			"D1 pets table is missing",
+		);
 	});
 
 	it("rejects invalid usernames before touching D1", async () => {

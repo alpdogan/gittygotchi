@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
 	CONTRIBUTION_FRESHNESS_TTL_SECONDS,
 	EQUAL_NORMAL_CLASSES,
+	GITHUB_REPO_URL,
+	GITHUB_USER_AGENT,
 	GROWTH_THRESHOLDS,
 	isContributionFresh,
 	NOT_FOUND_SVG_CACHE_TTL_SECONDS,
@@ -67,6 +69,12 @@ describe("isContributionFresh", () => {
 		expect(isContributionFresh(undefined, now)).toBe(false);
 		expect(isContributionFresh("not-a-date", now)).toBe(false);
 		expect(isContributionFresh("2026-09-08T11:39:59.000Z", now)).toBe(false);
+	});
+});
+
+describe("GitHub client identity", () => {
+	it("sends a contact User-Agent on public GitHub requests", () => {
+		expect(GITHUB_USER_AGENT).toBe(`GittyGotchi/1.0 (+${GITHUB_REPO_URL})`);
 	});
 });
 

@@ -1,6 +1,10 @@
 export type { AdoptPetFailure, AdoptPetResult, AdoptPetSuccess } from "./adopt.ts";
 export { adoptPet } from "./adopt.ts";
-export { createD1PetRepository, isUniqueConstraint } from "./d1-pet-repository.ts";
+export {
+	createD1PetRepository,
+	isMissingPetsTable,
+	isUniqueConstraint,
+} from "./d1-pet-repository.ts";
 export type {
 	CreatePetResult,
 	NewPet,

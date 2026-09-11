@@ -1,15 +1,14 @@
 import { GITHUB_REPO_URL, readmeSnippet } from "@gittygotchi/config";
-import { FOUNDATION_PREVIEW_STATE, sharePageFacts } from "@gittygotchi/svg";
+import type { VisiblePetState } from "@gittygotchi/domain";
+import { sharePageFacts } from "@gittygotchi/svg";
 import { escapeHtml } from "./escape.ts";
 import { renderGittyForm } from "./gitty-form.ts";
 import { renderPage } from "./layout.ts";
 
-const previewFacts = sharePageFacts(FOUNDATION_PREVIEW_STATE);
-
-export function renderUserPage(username: string): string {
+export function renderUserPage(username: string, state: VisiblePetState): string {
 	const snippet = readmeSnippet(username);
 	const safe = escapeHtml(username);
-	const facts = previewFacts
+	const facts = sharePageFacts(state)
 		.map(
 			(fact) => `
 				<div>
@@ -32,7 +31,7 @@ export function renderUserPage(username: string): string {
 			<dl class="facts">${facts}
 			</dl>
 		</div>
-		<p class="notice">This page is shareable. Exact formulas stay private. Live class and growth are not connected yet, so every username currently shows the same unrevealed egg.</p>
+		<p class="notice">This page is shareable. Exact formulas stay private. Everyone starts as an egg; growth starts after adoption.</p>
 		<p class="links">
 			<a href="https://github.com/${safe}">View @${safe} on GitHub</a>
 			<a href="${GITHUB_REPO_URL}">Star GittyGotchi on GitHub</a>
@@ -53,15 +52,37 @@ export function renderUserPage(username: string): string {
 }
 
 export function renderInvalidUsernamePage(): string {
+	return renderGittyHidingPage({
+		description: "That GitHub username is not valid.",
+		detail:
+			"Use 1–39 letters, numbers, or single hyphens. No leading, trailing, or doubled hyphens.",
+	});
+}
+
+export function renderGitHubUserNotFoundPage(username: string): string {
+	return renderGittyHidingPage({
+		description: "GitHub user not found.",
+		detail: `@${username} is not a public GitHub user.`,
+	});
+}
+
+export function renderGitHubUnavailablePage(username: string): string {
+	return renderGittyHidingPage({
+		description: "Try again soon.",
+		detail: `GitHub is unavailable, and Gitty for @${username} is not stored yet.`,
+	});
+}
+
+function renderGittyHidingPage(copy: { description: string; detail: string }): string {
 	return renderPage({
 		title: "Gitty is hiding · GittyGotchi",
-		description: "That GitHub username is not valid.",
+		description: copy.description,
 		canonicalPath: "/",
 		body: `
 		<p class="eyebrow"><a href="/">GittyGotchi</a></p>
 		<h1>Gitty is hiding.</h1>
-		<p>That GitHub username is not valid.</p>
-		<p>Use 1–39 letters, numbers, or single hyphens. No leading, trailing, or doubled hyphens.</p>
+		<p>${escapeHtml(copy.description)}</p>
+		<p>${escapeHtml(copy.detail)}</p>
 		<p><a class="button" href="/#own">Get your own Gitty</a></p>
 		`,
 	});

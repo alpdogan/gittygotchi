@@ -43,10 +43,11 @@ CI runs `wrangler types --check` so the committed `apps/worker/worker-configurat
 ## Local Worker
 
 ```bash
+pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --local
 pnpm dev
 ```
 
-That runs `wrangler dev` for `@gittygotchi/worker`, usually at `http://localhost:8787`.
+`pnpm dev` applies pending local D1 migrations, then runs `wrangler dev` for `@gittygotchi/worker`, usually at `http://localhost:8787`. Wrangler dev uses the local SQLite named `gittygotchi-local`, not the remote production database. If `pets` is missing, apply `--local` as above.
 
 ```bash
 pnpm --filter @gittygotchi/worker exec wrangler deploy --dry-run
@@ -79,13 +80,13 @@ Remote migrations are a production operation. Apply them manually immediately be
 corresponding Worker deploy. Wrangler records applied migrations; do not attempt to reverse them
 with a Worker rollback.
 
-Phase 4 adds a D1 repository. Routes still do not read or write D1 at runtime.
+Phase 4 added a D1 repository. The live HTTP path now adopts on first visit.
 
-Phase 6 caches foundation SVGs for 10 minutes on the `PetSvg` entrypoint. HTML stays `no-store`. GitHub and D1 are still not on the HTTP path.
+Phase 6 caches live SVGs for 10 minutes on the `PetSvg` entrypoint. HTML stays `no-store`. The first cache miss must adopt and persist.
 
 Phase 7 polishes the landing and share pages. The copy/discovery loop is the product.
 
-Phase 8 polishes character art through the approved prototype renderer. HTTP still serves a preview unrevealed egg Gitty. After changing SVG markup, regenerate README samples:
+Phase 8 polishes character art through the approved prototype renderer. Eggs stay visually unrevealed; hatched Gitty SVGs draw hunger, mood, and sleep. After changing SVG markup, regenerate README samples:
 
 ```bash
 pnpm --filter @gittygotchi/svg export-screenshots
@@ -133,7 +134,7 @@ pnpm --filter @gittygotchi/worker exec wrangler versions list
 curl --fail --show-error --silent https://gittygotchi.alpdogan.co/ >/dev/null
 ```
 
-Inspect a version and roll Worker code back with Wrangler 4.130.0:
+Inspect a version and roll Worker code back with Wrangler 4.131.1:
 
 ```bash
 pnpm --filter @gittygotchi/worker exec wrangler versions view <VERSION_ID>
