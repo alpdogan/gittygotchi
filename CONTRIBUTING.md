@@ -43,10 +43,11 @@ CI runs `wrangler types --check` so the committed `apps/worker/worker-configurat
 ## Local Worker
 
 ```bash
+pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --local
 pnpm dev
 ```
 
-That runs `wrangler dev` for `@gittygotchi/worker`, usually at `http://localhost:8787`.
+`pnpm dev` applies pending local D1 migrations, then runs `wrangler dev` for `@gittygotchi/worker`, usually at `http://localhost:8787`. Wrangler dev uses the local SQLite named `gittygotchi-local`, not the remote production database. If `pets` is missing, apply `--local` as above.
 
 ```bash
 pnpm --filter @gittygotchi/worker exec wrangler deploy --dry-run

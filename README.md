@@ -126,10 +126,11 @@ corepack enable
 corepack prepare pnpm@12.3.4 --activate
 pnpm install
 lefthook install
+pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --local
 pnpm dev
 ```
 
-`pnpm dev` starts Wrangler locally at `http://localhost:8787`.
+`pnpm dev` applies local D1 migrations, then starts Wrangler at `http://localhost:8787`. The local database is `gittygotchi-local` under `.wrangler/state`. Without `0001_initial.sql`, HTTP hits `no such table: pets`. Production D1 is separate; apply remote migrations only when deploying.
 
 ## Testing
 
