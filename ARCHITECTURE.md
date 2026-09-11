@@ -119,7 +119,7 @@ Do not `UPDATE pets SET views = views + 1`. Cache hits never reach the Worker. A
 
 ## SVG architecture
 
-Gitty is composed from the approved prototype renderer: shared species anatomy, class treatments, faces, behavior props, and stage-aware effects. HTTP renders stored visible state. Eggs stay visually unrevealed and omit hunger, mood, and sleep on the share page.
+Gitty is composed from the approved prototype renderer: shared species anatomy, class treatments, faces, behavior props, and stage-aware effects. HTTP renders stored visible state. Eggs stay visually unrevealed and omit hunger, mood, and sleep on the share page. Hatched Gitty SVGs draw those statuses on the 240×240 card.
 
 ## Clickable README strategy
 
@@ -145,6 +145,6 @@ Username validation is the SSRF boundary. Upstream GitHub URLs are built interna
 - Phase 5: SVG foundation — done
 - Phase 6: cache — done; first `PetSvg` miss adopts
 - Phase 7: landing/share polish — done
-- Phase 8: visual polish — done
+- Phase 8: visual polish — done; eggs omit hunger/mood; hatched SVGs draw statuses
 - Phase 9: production domain, ruleset, protected deploys
 - Phase 10: live HTTP path — first visit inserts a pet; later visits refresh, grow, and render stored state

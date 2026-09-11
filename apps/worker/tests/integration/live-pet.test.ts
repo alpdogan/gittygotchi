@@ -89,6 +89,10 @@ describe("live pet HTTP wiring", () => {
 		expect(svg).toContain('data-gitty-stage="hatchling"');
 		expect(svg).toContain(`data-gitty-class="${assignment.gittyClass}"`);
 		expect(svg).not.toContain('data-prototype-class="unrevealed"');
+		expect(svg).toContain("gitty-status-labels");
+		expect(svg).toContain(">Hunger<");
+		expect(svg).toContain(">Mood<");
+		expect(svg).toContain(">Sleep<");
 	});
 
 	it("returns the GitHub 404 SVG and page when the user is missing", async () => {

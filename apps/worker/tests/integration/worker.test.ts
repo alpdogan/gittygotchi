@@ -74,6 +74,7 @@ describe("GittyGotchi worker", () => {
 		expect(html).not.toContain("<dt>Sleep</dt>");
 		expect(html).not.toContain("<dd>Unrevealed</dd>");
 		expect(html).not.toContain("Coming soon");
+		expect(html).toContain('class="gitty-status"');
 		expect(html).toContain("width: min(100%, 240px)");
 		expect(html).toContain("grid-template-columns: repeat(2, minmax(0, 1fr))");
 		expect(html).toContain("growth starts after adoption");

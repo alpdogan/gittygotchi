@@ -86,7 +86,7 @@ Phase 6 caches live SVGs for 10 minutes on the `PetSvg` entrypoint. HTML stays `
 
 Phase 7 polishes the landing and share pages. The copy/discovery loop is the product.
 
-Phase 8 polishes character art through the approved prototype renderer. After changing SVG markup, regenerate README samples:
+Phase 8 polishes character art through the approved prototype renderer. Eggs stay visually unrevealed; hatched Gitty SVGs draw hunger, mood, and sleep. After changing SVG markup, regenerate README samples:
 
 ```bash
 pnpm --filter @gittygotchi/svg export-screenshots
