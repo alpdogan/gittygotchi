@@ -3,13 +3,13 @@ import { parseGitHubUsername } from "@gittygotchi/domain";
 import { errorSvgResponse, petSvgResponse } from "../http/pet-svg.ts";
 
 export class PetSvg extends WorkerEntrypoint<Env> {
-	override fetch(request: Request): Response {
+	override fetch(request: Request): Promise<Response> | Response {
 		const username = petSvgUsername(request);
 		if (username === undefined) {
 			return errorSvgResponse("internal");
 		}
 
-		return petSvgResponse(username);
+		return petSvgResponse(this.env, username);
 	}
 }
 

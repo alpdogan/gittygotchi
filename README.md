@@ -67,7 +67,7 @@ flowchart TD
   domain --> svg[SVG Renderer]
 ```
 
-The Worker serves a polished landing page and share pages plus a cached preview unrevealed egg SVG. The renderer can draw every growth stage and class; live pet state is not wired to HTTP yet.
+The Worker serves a polished landing page and share pages plus a cached SVG rendered from stored pet state. The first `/{username}` or `/{username}.svg` visit creates the D1 row.
 
 ## Looks
 
@@ -115,7 +115,7 @@ Everyone starts as an egg. Growth and class art is ready in the renderer.
 	<img src="docs/screenshots/behavior-hibernating.svg" width="96" alt="Hibernating">
 </p>
 
-GitHub fetching, the domain engine, and the D1 repository exist in the repo but are not wired to HTTP yet.
+GitHub fetching, the domain engine, and the D1 repository are wired to HTTP. CI still mocks GitHub.
 
 ## Development
 
@@ -126,10 +126,11 @@ corepack enable
 corepack prepare pnpm@12.3.4 --activate
 pnpm install
 lefthook install
+pnpm --filter @gittygotchi/worker exec wrangler d1 migrations apply gittygotchi --local
 pnpm dev
 ```
 
-`pnpm dev` starts Wrangler locally at `http://localhost:8787`.
+`pnpm dev` applies local D1 migrations, then starts Wrangler at `http://localhost:8787`. The local database is `gittygotchi-local` under `.wrangler/state`. Without `0001_initial.sql`, HTTP hits `no such table: pets`. Production D1 is separate; apply remote migrations only when deploying.
 
 ## Testing
 

@@ -1,12 +1,13 @@
 import {
 	CONTRIBUTION_FRESHNESS_TTL_SECONDS,
 	GITHUB_API_ORIGIN,
+	GITHUB_API_VERSION,
 	GITHUB_USER_AGENT,
 	GITHUB_WEB_ORIGIN,
 } from "@gittygotchi/config";
 import { describe, expect, it } from "vitest";
 import { createContributionProvider } from "../../src/github/contribution-provider.ts";
-import { createGitHubClient } from "../../src/github/github-client.ts";
+import { createGitHubClient, type GitHubFetch } from "../../src/github/github-client.ts";
 import { githubContributionsUrl, githubUserUrl } from "../../src/github/urls.ts";
 import { createGitHubUserProvider } from "../../src/github/user-provider.ts";
 import { loadGithubFixture } from "./load-fixture.ts";
@@ -39,6 +40,7 @@ describe("GitHubUserProvider", () => {
 				fetch: async (url, init) => {
 					expect(url).toBe(`${GITHUB_API_ORIGIN}/users/alpdogan`);
 					expect(init.headers["user-agent"]).toBe(GITHUB_USER_AGENT);
+					expect(init.headers["x-github-api-version"]).toBe(GITHUB_API_VERSION);
 					return jsonResponse({
 						login: "AlpDogan",
 						created_at: "2014-01-15T00:00:00Z",
@@ -92,6 +94,41 @@ describe("GitHubUserProvider", () => {
 		await expect(provider.getUser("not_a_user")).resolves.toEqual({
 			ok: false,
 			error: { type: "invalid_username" },
+		});
+	});
+
+	it("invokes a detached this-sensitive fetch without illegal invocation", async () => {
+		const owner = {
+			async fetch(
+				this: unknown,
+				url: string,
+				init: {
+					method: "GET";
+					headers: Record<string, string>;
+					redirect: "follow";
+					signal: AbortSignal;
+				},
+			) {
+				if (this == null) {
+					throw new TypeError("Illegal invocation");
+				}
+				expect(url).toBe(`${GITHUB_API_ORIGIN}/users/alpdogan`);
+				expect(init.headers["user-agent"]).toBe(GITHUB_USER_AGENT);
+				return jsonResponse({
+					login: "alpdogan",
+					created_at: "2014-01-15T00:00:00Z",
+				});
+			},
+		};
+		const provider = createGitHubUserProvider(
+			createGitHubClient({
+				fetch: owner.fetch as GitHubFetch,
+			}),
+		);
+
+		await expect(provider.getUser("alpdogan")).resolves.toEqual({
+			ok: true,
+			value: { login: "alpdogan", createdAt: "2014-01-15T00:00:00Z" },
 		});
 	});
 

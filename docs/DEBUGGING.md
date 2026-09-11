@@ -6,7 +6,7 @@ These commands are for local debugging against public GitHub pages. They are not
 
 ```bash
 curl -s \
-  -H "User-Agent: GittyGotchi" \
+  -H "User-Agent: GittyGotchi/1.0 (+https://github.com/alpdogan/gittygotchi)" \
   "https://api.github.com/users/alpdogan" | jq
 ```
 
@@ -14,7 +14,7 @@ curl -s \
 
 ```bash
 curl -L -s \
-  -H "User-Agent: GittyGotchi" \
+  -H "User-Agent: GittyGotchi/1.0 (+https://github.com/alpdogan/gittygotchi)" \
   "https://github.com/users/alpdogan/contributions"
 ```
 

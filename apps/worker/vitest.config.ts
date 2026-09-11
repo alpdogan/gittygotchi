@@ -20,6 +20,6 @@ export default defineConfig({
 	test: {
 		name: "worker",
 		include: ["tests/integration/**/*.test.ts"],
-		setupFiles: ["./tests/apply-migrations.ts"],
+		setupFiles: ["./tests/apply-migrations.ts", "./tests/install-github-mock.ts"],
 	},
 });

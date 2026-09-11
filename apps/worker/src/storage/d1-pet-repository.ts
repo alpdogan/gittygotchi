@@ -78,8 +78,12 @@ RETURNING
 export function createD1PetRepository(db: D1Database): PetRepository {
 	return {
 		async getByUsername(username) {
-			const row = await db.prepare(SELECT_BY_USERNAME).bind(username).first();
-			return row === null ? undefined : requireStoredPet(row);
+			try {
+				const row = await db.prepare(SELECT_BY_USERNAME).bind(username).first();
+				return row === null ? undefined : requireStoredPet(row);
+			} catch (error) {
+				rethrowD1(error);
+			}
 		},
 
 		async create(pet) {
@@ -99,49 +103,76 @@ export function createD1PetRepository(db: D1Database): PetRepository {
 				return { type: "created", pet: requireStoredPet(row) };
 			} catch (error) {
 				if (!isUniqueConstraint(error)) {
-					throw error;
+					rethrowD1(error);
 				}
-				const existing = await db.prepare(SELECT_BY_USERNAME).bind(pet.username).first();
-				if (existing === null) {
-					throw error;
+				try {
+					const existing = await db.prepare(SELECT_BY_USERNAME).bind(pet.username).first();
+					if (existing === null) {
+						rethrowD1(error);
+					}
+					return { type: "already_exists", pet: requireStoredPet(existing) };
+				} catch (lookupError) {
+					rethrowD1(lookupError);
 				}
-				return { type: "already_exists", pet: requireStoredPet(existing) };
 			}
 		},
 
 		async updateLifecycle(username, update) {
-			const row = await db
-				.prepare(UPDATE_LIFECYCLE)
-				.bind(
-					update.growthStage,
-					update.growthPoints,
-					update.activeDays,
-					optionalBind(update.lastActiveDate),
-					update.lastContributionLevel,
-					optionalBind(update.lastGithubSyncAt),
-					update.updatedAt,
-					username,
-				)
-				.first();
-			return row === null ? undefined : requireStoredPet(row);
+			try {
+				const row = await db
+					.prepare(UPDATE_LIFECYCLE)
+					.bind(
+						update.growthStage,
+						update.growthPoints,
+						update.activeDays,
+						optionalBind(update.lastActiveDate),
+						update.lastContributionLevel,
+						optionalBind(update.lastGithubSyncAt),
+						update.updatedAt,
+						username,
+					)
+					.first();
+				return row === null ? undefined : requireStoredPet(row);
+			} catch (error) {
+				rethrowD1(error);
+			}
 		},
 	};
 }
 
+export function isMissingPetsTable(error: unknown): boolean {
+	return errorChainIncludes(error, (message) => message.includes("no such table: pets"));
+}
+
 export function isUniqueConstraint(error: unknown): boolean {
+	return errorChainIncludes(
+		error,
+		(message) =>
+			message.includes("UNIQUE constraint failed") || message.includes("SQLITE_CONSTRAINT"),
+	);
+}
+
+function errorChainIncludes(error: unknown, match: (message: string) => boolean): boolean {
 	let current: unknown = error;
 	const seen = new Set<unknown>();
 	while (current instanceof Error && !seen.has(current)) {
 		seen.add(current);
-		if (
-			current.message.includes("UNIQUE constraint failed") ||
-			current.message.includes("SQLITE_CONSTRAINT")
-		) {
+		if (match(current.message)) {
 			return true;
 		}
 		current = current.cause;
 	}
 	return false;
+}
+
+function rethrowD1(error: unknown): never {
+	if (isMissingPetsTable(error)) {
+		throw new Error(
+			"D1 pets table is missing. Apply migrations with wrangler d1 migrations apply gittygotchi --local (or --remote).",
+			{ cause: error },
+		);
+	}
+	throw error;
 }
 
 function optionalBind(value: string | undefined): string | null {
