@@ -20,7 +20,7 @@ export function renderUserPage(username: string, state: VisiblePetState): string
 
 	return renderPage({
 		title: `@${username}'s Gitty · GittyGotchi`,
-		description: `A tiny creature that lives on ${username}'s GitHub profile.`,
+		description: `Public GittyGotchi page for @${username}. No login. The first visit creates an egg; class and growth use public GitHub data after adoption.`,
 		canonicalPath: `/${username}`,
 		ogImagePath: `/${username}.svg`,
 		body: `
@@ -53,6 +53,7 @@ export function renderUserPage(username: string, state: VisiblePetState): string
 
 export function renderInvalidUsernamePage(): string {
 	return renderGittyHidingPage({
+		title: "Invalid username · GittyGotchi",
 		description: "That GitHub username is not valid.",
 		detail:
 			"Use 1–39 letters, numbers, or single hyphens. No leading, trailing, or doubled hyphens.",
@@ -61,6 +62,7 @@ export function renderInvalidUsernamePage(): string {
 
 export function renderGitHubUserNotFoundPage(username: string): string {
 	return renderGittyHidingPage({
+		title: "GitHub user not found · GittyGotchi",
 		description: "GitHub user not found.",
 		detail: `@${username} is not a public GitHub user.`,
 	});
@@ -68,16 +70,22 @@ export function renderGitHubUserNotFoundPage(username: string): string {
 
 export function renderGitHubUnavailablePage(username: string): string {
 	return renderGittyHidingPage({
+		title: "GitHub unavailable · GittyGotchi",
 		description: "Try again soon.",
 		detail: `GitHub is unavailable, and Gitty for @${username} is not stored yet.`,
 	});
 }
 
-function renderGittyHidingPage(copy: { description: string; detail: string }): string {
+function renderGittyHidingPage(copy: {
+	title: string;
+	description: string;
+	detail: string;
+}): string {
 	return renderPage({
-		title: "Gitty is hiding · GittyGotchi",
+		title: copy.title,
 		description: copy.description,
 		canonicalPath: "/",
+		indexable: false,
 		body: `
 		<p class="eyebrow"><a href="/">GittyGotchi</a></p>
 		<h1>Gitty is hiding.</h1>

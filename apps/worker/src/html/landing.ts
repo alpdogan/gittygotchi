@@ -2,6 +2,7 @@ import { EXAMPLE_USERNAME, readmeSnippet } from "@gittygotchi/config";
 import { parseGitHubUsername } from "@gittygotchi/domain";
 import { escapeHtml } from "./escape.ts";
 import { renderGittyForm } from "./gitty-form.ts";
+import { LANDING_WEB_APPLICATION_JSON_LD } from "./json-ld.ts";
 import { renderPage } from "./layout.ts";
 
 export function renderLandingPage(rawUsername?: string | null): string {
@@ -12,10 +13,12 @@ export function renderLandingPage(rawUsername?: string | null): string {
 	const snippet = readmeSnippet(EXAMPLE_USERNAME);
 
 	return renderPage({
-		title: "GittyGotchi",
-		description: "A tiny creature that lives on your GitHub profile.",
+		title: "GittyGotchi · a tiny creature for your GitHub profile",
+		description:
+			"A tiny creature that lives on your GitHub profile. No login or token. Paste one Markdown snippet into your README; the first visit creates your Gitty as an egg.",
 		canonicalPath: "/",
 		ogImagePath: `/${EXAMPLE_USERNAME}.svg`,
+		jsonLd: LANDING_WEB_APPLICATION_JSON_LD,
 		body: `
 		<div class="hero">
 			<a class="hero-gitty" href="/${EXAMPLE_USERNAME}">

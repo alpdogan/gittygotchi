@@ -8,7 +8,7 @@ No login. No token. Just add your Gitty.
 
 ## Get yours
 
-Replace `YOUR_USERNAME`:
+Replace `YOUR_USERNAME` with your GitHub username. Until you do, the image is an unrevealed egg:
 
 [![GittyGotchi](https://gittygotchi.alpdogan.co/YOUR_USERNAME.svg)](https://gittygotchi.alpdogan.co/YOUR_USERNAME)
 

@@ -1,11 +1,11 @@
 import { parseGitHubUsername } from "@gittygotchi/domain";
+import { errorSvgCacheControl } from "../cache/headers.ts";
 import { dispatchPetSvg } from "../cache/pet-cache.ts";
-import { healthResponse } from "./health.ts";
 import { landingResponse } from "./landing.ts";
-import { errorSvgResponse } from "./pet-svg.ts";
+import { placeholderEggSvgResponse } from "./pet-svg.ts";
 import { methodNotAllowed, notFound } from "./response.ts";
-import { robotsResponse } from "./robots.ts";
 import { invalidUsernamePageResponse, userPageResponse } from "./user-page.ts";
+import { wellKnownResponse } from "./well-known.ts";
 
 const GET_HEAD = "GET, HEAD";
 
@@ -25,12 +25,9 @@ export function handleRequest(
 		return landingResponse(url.searchParams.get("username"));
 	}
 
-	if (pathname === "/health") {
-		return healthResponse();
-	}
-
-	if (pathname === "/robots.txt") {
-		return robotsResponse();
+	const wellKnown = wellKnownResponse(pathname);
+	if (wellKnown !== undefined) {
+		return wellKnown;
 	}
 
 	if (pathname.slice(1).includes("/")) {
@@ -41,7 +38,7 @@ export function handleRequest(
 		const rawUsername = pathname.slice(1, -".svg".length);
 		const parsed = parseGitHubUsername(rawUsername);
 		if (!parsed.ok) {
-			return errorSvgResponse("invalid_username", rawUsername);
+			return placeholderEggSvgResponse(rawUsername, errorSvgCacheControl("invalid_username"));
 		}
 		return dispatchPetSvg(ctx, parsed.username);
 	}

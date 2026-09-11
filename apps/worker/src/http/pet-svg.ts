@@ -8,10 +8,7 @@ export async function petSvgResponse(env: Env, username: string): Promise<Respon
 	try {
 		const result = await resolveLivePetFromEnv(env, username);
 		if (!result.ok) {
-			if (isPreviewEggFallback(result.error.kind)) {
-				return previewEggSvgResponse(username);
-			}
-			return errorSvgResponse(result.error.kind, username);
+			return placeholderEggSvgResponse(username, errorSvgCacheControl(result.error.kind));
 		}
 
 		return svgResponse(
@@ -22,7 +19,7 @@ export async function petSvgResponse(env: Env, username: string): Promise<Respon
 		);
 	} catch (error) {
 		console.error("pet svg resolve failed", error);
-		return previewEggSvgResponse(username);
+		return placeholderEggSvgResponse(username, NO_STORE);
 	}
 }
 
@@ -33,10 +30,10 @@ export function errorSvgResponse(kind: ErrorSvgKind, username?: string): Respons
 	return svgResponse(svg, status, errorSvgCacheControl(kind));
 }
 
-export function isPreviewEggFallback(kind: ErrorSvgKind): boolean {
-	return kind === "github_unavailable" || kind === "internal";
+export function placeholderEggSvgResponse(username: string, cacheControl: string): Response {
+	return svgResponse(renderGitty({ username, state: PREVIEW_EGG_STATE }), 200, cacheControl);
 }
 
-function previewEggSvgResponse(username: string): Response {
-	return svgResponse(renderGitty({ username, state: PREVIEW_EGG_STATE }), 200, NO_STORE);
+export function isPreviewEggFallback(kind: ErrorSvgKind): boolean {
+	return kind === "github_unavailable" || kind === "internal";
 }

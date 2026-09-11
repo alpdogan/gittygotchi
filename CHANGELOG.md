@@ -7,15 +7,17 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ## [Unreleased]
 
-### Changed
-
-- Live HTTP draws stored pet state. Eggs stay visually unrevealed (the earlier adult Earth SVG was a hardcoded preview). Share pages show Class Hidden and Stage Egg only; hunger, mood, and sleep stay off eggs so chips fit the 240px Gitty card.
-- Hatched Gitty SVGs draw hunger, mood, and sleep on the 240×240 card so GitHub README embeds can show them.
-
 ### Added
 
+- Public discovery files: `robots.txt` with a sitemap pointer, a small `sitemap.xml` for `/` and the example Gitty, `llms.txt` (and `/llm.txt`), favicon routes, JSON-LD on the landing page, and tighter per-page titles and descriptions.
 - Live HTTP path: first `/{username}` or `/{username}.svg` visit fetches public GitHub `created_at`, inserts a D1 pet, and renders stored egg state. Later visits refresh contributions, run growth, and draw the stored Gitty instead of the hardcoded preview.
 - `pnpm dev` applies local D1 migrations so the `pets` table exists before Wrangler starts. A missing `pets` table now throws a migration hint instead of a raw SQLITE_ERROR.
+
+### Changed
+
+- Invalid-username and missing-GitHub-user SVG routes return HTTP 200 unrevealed eggs so GitHub README images render instead of a broken document icon. HTML pages for those cases stay 400/404.
+- Live HTTP draws stored pet state. Eggs stay visually unrevealed (the earlier adult Earth SVG was a hardcoded preview). Share pages show Class Hidden and Stage Egg only; hunger, mood, and sleep stay off eggs so chips fit the 240px Gitty card.
+- Hatched Gitty SVGs draw hunger, mood, and sleep on the 240×240 card so GitHub README embeds can show them.
 
 ### Fixed
 
