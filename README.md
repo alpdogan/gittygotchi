@@ -67,7 +67,7 @@ flowchart TD
   domain --> svg[SVG Renderer]
 ```
 
-The Worker serves a polished landing page and share pages plus a cached preview adult Gitty SVG. The renderer can draw every growth stage and class; live pet state is not wired to HTTP yet.
+The Worker serves a polished landing page and share pages plus a cached preview unrevealed egg SVG. The renderer can draw every growth stage and class; live pet state is not wired to HTTP yet.
 
 ## Looks
 

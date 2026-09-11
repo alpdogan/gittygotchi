@@ -117,6 +117,12 @@ pre, pre code {
 }
 .gitty-frame.large { width: min(100%, 320px); }
 .gitty-frame.is-hidden { display: none; }
+.gitty-status {
+	width: min(100%, 36rem);
+	margin: 0.4rem 0 1rem;
+}
+.gitty-status .gitty-frame { margin: 0 0 0.75rem; }
+.gitty-status .facts { margin: 0; }
 .notice {
 	margin: 0 0 1.2rem;
 	padding: 0.7rem 0.9rem;
@@ -126,7 +132,7 @@ pre, pre code {
 }
 .facts {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
 	gap: 0.7rem;
 	margin: 1rem 0;
 }

@@ -1,7 +1,31 @@
 import { GITHUB_REPO_URL, readmeSnippet } from "@gittygotchi/config";
+import type { Behavior } from "@gittygotchi/domain";
+import { FOUNDATION_PREVIEW_STATE } from "@gittygotchi/svg";
 import { escapeHtml } from "./escape.ts";
 import { renderGittyForm } from "./gitty-form.ts";
 import { renderPage } from "./layout.ts";
+
+function titleCaseStatus(value: string): string {
+	return value
+		.split("_")
+		.map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+		.join(" ");
+}
+
+function previewSleepStatus(behavior: Behavior): string {
+	if (behavior === "sleeping" || behavior === "sleepy" || behavior === "hibernating") {
+		return titleCaseStatus(behavior);
+	}
+	return "Awake";
+}
+
+const previewFacts = {
+	classLabel: FOUNDATION_PREVIEW_STATE.growthStage === "egg" ? "Unrevealed" : "Coming soon",
+	stage: titleCaseStatus(FOUNDATION_PREVIEW_STATE.growthStage),
+	hunger: titleCaseStatus(FOUNDATION_PREVIEW_STATE.hunger),
+	mood: titleCaseStatus(FOUNDATION_PREVIEW_STATE.mood),
+	sleep: previewSleepStatus(FOUNDATION_PREVIEW_STATE.behavior),
+};
 
 export function renderUserPage(username: string): string {
 	const snippet = readmeSnippet(username);
@@ -15,22 +39,32 @@ export function renderUserPage(username: string): string {
 		body: `
 		<p class="eyebrow">A public Gitty page</p>
 		<h1>@${safe}'s Gitty</h1>
-		<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi for @${safe}">
-		<p class="notice">This page is shareable. Exact formulas stay private. Live class and growth are not connected yet.</p>
-		<dl class="facts">
-			<div>
-				<dt>Class</dt>
-				<dd>Coming soon</dd>
-			</div>
-			<div>
-				<dt>Current visible state</dt>
-				<dd>Preview adult</dd>
-			</div>
-			<div>
-				<dt>Growth</dt>
-				<dd>Adult</dd>
-			</div>
-		</dl>
+		<div class="gitty-status">
+			<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi for @${safe}">
+			<dl class="facts">
+				<div>
+					<dt>Class</dt>
+					<dd>${previewFacts.classLabel}</dd>
+				</div>
+				<div>
+					<dt>Stage</dt>
+					<dd>${previewFacts.stage}</dd>
+				</div>
+				<div>
+					<dt>Hunger</dt>
+					<dd>${previewFacts.hunger}</dd>
+				</div>
+				<div>
+					<dt>Mood</dt>
+					<dd>${previewFacts.mood}</dd>
+				</div>
+				<div>
+					<dt>Sleep</dt>
+					<dd>${previewFacts.sleep}</dd>
+				</div>
+			</dl>
+		</div>
+		<p class="notice">This page is shareable. Exact formulas stay private. Live class and growth are not connected yet, so every username currently shows the same unrevealed egg.</p>
 		<p class="links">
 			<a href="https://github.com/${safe}">View @${safe} on GitHub</a>
 			<a href="${GITHUB_REPO_URL}">Star GittyGotchi on GitHub</a>

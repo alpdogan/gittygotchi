@@ -52,12 +52,12 @@ describe("resolveFace", () => {
 });
 
 describe("renderGitty", () => {
-	it("uses adult happy Earth as the HTTP preview", () => {
+	it("uses the unrevealed prototype egg as the HTTP preview", () => {
 		expect(FOUNDATION_PREVIEW_STATE).toEqual({
 			gittyClass: "earth",
-			growthStage: "adult",
+			growthStage: "egg",
 			hunger: "normal",
-			mood: "happy",
+			mood: "neutral",
 			behavior: "idle",
 		});
 		const svg = renderGitty({
@@ -65,9 +65,14 @@ describe("renderGitty", () => {
 			state: FOUNDATION_PREVIEW_STATE,
 			preview: true,
 		});
-		expect(svg).toContain('data-gitty-stage="adult"');
-		expect(svg).toContain("earth-leaf");
-		expect(svg).toContain("A preview adult Gitty");
+		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain('data-gitty-body="egg"');
+		expect(svg).toContain('data-prototype-stage="egg"');
+		expect(svg).toContain('data-prototype-class="unrevealed"');
+		expect(svg).toContain("stage-egg");
+		expect(svg).toContain("A preview unrevealed Gitty egg");
+		expect(svg).not.toContain("earth-leaf");
+		expect(svg).not.toContain('class="gitty-ears"');
 	});
 
 	it("returns a compact accessible SVG from the approved prototype", () => {
