@@ -9,4 +9,4 @@ export { FACE_KINDS, resolveFace } from "./face.ts";
 export type { ClassPalette } from "./palette.ts";
 export { CLASS_PALETTES } from "./palette.ts";
 export type { GittySvgOptions } from "./renderer.ts";
-export { FOUNDATION_PREVIEW_STATE, renderGitty } from "./renderer.ts";
+export { FOUNDATION_PREVIEW_STATE, PREVIEW_EGG_STATE, renderGitty } from "./renderer.ts";

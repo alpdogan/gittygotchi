@@ -32,7 +32,7 @@ export function createPetRuntime(
 	env: Env,
 	options: { fetch?: GitHubFetch; now?: () => Date } = {},
 ): PetRuntime {
-	const githubFetch = options.fetch ?? githubFetchOverride ?? (globalThis.fetch as GitHubFetch);
+	const githubFetch = options.fetch ?? githubFetchOverride ?? platformGithubFetch;
 	const now = options.now ?? nowOverride ?? (() => new Date());
 	const client = createGitHubClient({ fetch: githubFetch });
 	return {
@@ -41,6 +41,10 @@ export function createPetRuntime(
 		contributions: createContributionProvider({ client, now }),
 		now,
 	};
+}
+
+function platformGithubFetch(input: string, init: Parameters<GitHubFetch>[1]): Promise<Response> {
+	return globalThis.fetch(input, init);
 }
 
 export function resolveLivePetFromEnv(

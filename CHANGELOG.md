@@ -11,6 +11,10 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 - Live HTTP path: first `/{username}` or `/{username}.svg` visit fetches public GitHub `created_at`, inserts a D1 pet, and renders stored egg state. Later visits refresh contributions, run growth, and draw the stored Gitty instead of the hardcoded preview.
 - `pnpm dev` applies local D1 migrations so the `pets` table exists before Wrangler starts. A missing `pets` table now throws a migration hint instead of a raw SQLITE_ERROR.
+
+### Fixed
+
+- First-visit `/alpdogan.svg` rendered the hiding-error face because a detached Workers `fetch` threw `Illegal invocation` and was mapped to `github_unavailable`. GitHub calls now invoke the platform binding with the correct `this`, send `GittyGotchi/1.0 (+repo URL)` plus `X-GitHub-Api-Version`, and fall back to a preview egg when GitHub/D1 fails before a pet exists.
 - Phase 8 visual polish: distinct Egg through Mature silhouettes, richer class traits, extra faces, motion, SVG compacting, and README screenshots. Live class and growth are not connected yet.
 - Phase 7 landing and share polish: discovery-focused landing, public share page, username generator with copy and no-JS fallback, and Open Graph tags. Live class and growth are not connected yet.
 - Phase 6 cache: Workers Caching on the SVG entrypoint, 10-minute SVG TTL, 20-minute contribution freshness, stale GitHub fallback policy, and contribution HTML subrequest cache. Live class and growth are not connected yet.

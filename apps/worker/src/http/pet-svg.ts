@@ -1,21 +1,29 @@
 import type { ErrorSvgKind } from "@gittygotchi/svg";
-import { renderErrorSvg, renderGitty } from "@gittygotchi/svg";
-import { errorSvgCacheControl } from "../cache/headers.ts";
+import { PREVIEW_EGG_STATE, renderErrorSvg, renderGitty } from "@gittygotchi/svg";
+import { errorSvgCacheControl, NO_STORE } from "../cache/headers.ts";
 import { resolveLivePetFromEnv } from "../pet/index.ts";
 import { svgResponse } from "./response.ts";
 
 export async function petSvgResponse(env: Env, username: string): Promise<Response> {
-	const result = await resolveLivePetFromEnv(env, username);
-	if (!result.ok) {
-		return errorSvgResponse(result.error.kind, username);
-	}
+	try {
+		const result = await resolveLivePetFromEnv(env, username);
+		if (!result.ok) {
+			if (isPreviewEggFallback(result.error.kind)) {
+				return previewEggSvgResponse(username);
+			}
+			return errorSvgResponse(result.error.kind, username);
+		}
 
-	return svgResponse(
-		renderGitty({
-			username,
-			state: result.view,
-		}),
-	);
+		return svgResponse(
+			renderGitty({
+				username,
+				state: result.view,
+			}),
+		);
+	} catch (error) {
+		console.error("pet svg resolve failed", error);
+		return previewEggSvgResponse(username);
+	}
 }
 
 export function errorSvgResponse(kind: ErrorSvgKind, username?: string): Response {
@@ -23,4 +31,12 @@ export function errorSvgResponse(kind: ErrorSvgKind, username?: string): Respons
 	const svg =
 		username === undefined ? renderErrorSvg({ kind }) : renderErrorSvg({ kind, username });
 	return svgResponse(svg, status, errorSvgCacheControl(kind));
+}
+
+export function isPreviewEggFallback(kind: ErrorSvgKind): boolean {
+	return kind === "github_unavailable" || kind === "internal";
+}
+
+function previewEggSvgResponse(username: string): Response {
+	return svgResponse(renderGitty({ username, state: PREVIEW_EGG_STATE }), 200, NO_STORE);
 }

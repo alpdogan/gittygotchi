@@ -13,6 +13,7 @@ import {
 	escapeXml,
 	FACE_KINDS,
 	FOUNDATION_PREVIEW_STATE,
+	PREVIEW_EGG_STATE,
 	renderErrorSvg,
 	renderGitty,
 	resolveFace,
@@ -68,6 +69,20 @@ describe("renderGitty", () => {
 		expect(svg).toContain('data-gitty-stage="adult"');
 		expect(svg).toContain("earth-leaf");
 		expect(svg).toContain("A preview adult Gitty");
+	});
+
+	it("keeps an egg preview state for first-visit fallbacks", () => {
+		expect(PREVIEW_EGG_STATE).toEqual({
+			gittyClass: "earth",
+			growthStage: "egg",
+			hunger: "normal",
+			mood: "happy",
+			behavior: "idle",
+		});
+		const svg = renderGitty({ username: "alpdogan", state: PREVIEW_EGG_STATE });
+		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain('data-prototype-class="unrevealed"');
+		expect(svg).not.toContain("Gitty is hiding.");
 	});
 
 	it("returns a compact accessible SVG from the approved prototype", () => {

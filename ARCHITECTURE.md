@@ -97,7 +97,7 @@ Cache constants live in `packages/config/src/cache.ts`. SVG TTL is 10 minutes. C
 
 Workers Caching sits in front of the `PetSvg` entrypoint. The default gateway is uncached: it validates the username, strips query strings, and dispatches `GET /{username}.svg` to `PetSvg`. Cache keys use the normalized lowercase path, not hostname or query string. HTML, health, and 503 error SVGs are `no-store`. Invalid-username images may be cached. GitHub 404 images use a 60-second TTL.
 
-If GitHub is down, serve known state. Order: fresh SVG cache, stored pet, stale contribution timestamps on the pet row, then upstream GitHub. Parser failure is not zero activity. Image routes always return SVG.
+If GitHub is down, serve known state. Order: fresh SVG cache, stored pet, stale contribution timestamps on the pet row, then upstream GitHub. Parser failure is not zero activity. Image routes always return SVG. When no pet is stored yet, first-visit GitHub or D1 failure renders a preview egg instead of the hiding-error face.
 
 GitHub contribution fetches ask Cloudflare to cache the HTML for the freshness TTL (`cf.cacheTtl` + `cacheEverything`) so repeated origin misses do not all hit GitHub. Do not log every healthy cache hit.
 

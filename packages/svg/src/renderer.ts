@@ -11,6 +11,14 @@ export const FOUNDATION_PREVIEW_STATE: VisiblePetState = {
 	behavior: "idle",
 };
 
+export const PREVIEW_EGG_STATE: VisiblePetState = {
+	gittyClass: "earth",
+	growthStage: "egg",
+	hunger: "normal",
+	mood: "happy",
+	behavior: "idle",
+};
+
 export type GittySvgOptions = {
 	username: string;
 	state: VisiblePetState;

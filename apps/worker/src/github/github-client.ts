@@ -1,5 +1,6 @@
 import {
 	CONTRIBUTION_FRESHNESS_TTL_SECONDS,
+	GITHUB_API_VERSION,
 	GITHUB_CONTRIBUTIONS_MAX_BYTES,
 	GITHUB_CONTRIBUTIONS_TIMEOUT_MS,
 	GITHUB_USER_AGENT,
@@ -47,6 +48,25 @@ function unavailable(): GitHubResult<string> {
 	return { ok: false, error: { type: "github_unavailable" } };
 }
 
+function invokeGitHubFetch(
+	fetch: GitHubFetch,
+	url: string,
+	init: Parameters<GitHubFetch>[1],
+): Promise<Response> {
+	return Reflect.apply(fetch, globalThis, [url, init]);
+}
+
+function githubHeaders(userAgent: string, accept: string): Record<string, string> {
+	const headers: Record<string, string> = {
+		"user-agent": userAgent,
+		accept,
+	};
+	if (accept === "application/vnd.github+json") {
+		headers["x-github-api-version"] = GITHUB_API_VERSION;
+	}
+	return headers;
+}
+
 async function getText(options: {
 	fetch: GitHubFetch;
 	url: string | undefined;
@@ -63,12 +83,9 @@ async function getText(options: {
 
 	let response: Response;
 	try {
-		response = await options.fetch(options.url, {
+		response = await invokeGitHubFetch(options.fetch, options.url, {
 			method: "GET",
-			headers: {
-				"user-agent": options.userAgent,
-				accept: options.accept,
-			},
+			headers: githubHeaders(options.userAgent, options.accept),
 			redirect: "follow",
 			signal: timeoutSignal(options.timeoutMs),
 			...(options.cache === undefined ? {} : { cf: options.cache }),

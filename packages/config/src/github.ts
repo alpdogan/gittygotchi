@@ -1,4 +1,8 @@
-export const GITHUB_USER_AGENT = "GittyGotchi";
+import { GITHUB_REPO_URL } from "./site.ts";
+
+export const GITHUB_USER_AGENT = `GittyGotchi/1.0 (+${GITHUB_REPO_URL})`;
+
+export const GITHUB_API_VERSION = "2022-11-28";
 
 export const GITHUB_API_ORIGIN = "https://api.github.com";
 

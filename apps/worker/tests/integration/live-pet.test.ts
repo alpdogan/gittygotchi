@@ -114,13 +114,24 @@ describe("live pet HTTP wiring", () => {
 		expect(await repository().getByUsername("missinguser")).toBeUndefined();
 	});
 
-	it("returns the unavailable SVG when GitHub is down and no pet is stored", async () => {
+	it("renders a preview egg instead of the hiding face when GitHub is down and no pet is stored", async () => {
 		setGithubFetchForTests(mockGithubFetch({ users: { ghost: "down" } }));
 
-		const response = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/ghost.svg"));
-		expect(response.status).toBe(503);
-		expect(await response.text()).toContain("Try again soon.");
-		expect(response.headers.get("cache-control")).toBe("no-store");
+		const svgResponse = await worker.fetch(
+			new Request("https://gittygotchi.alpdogan.co/ghost.svg"),
+		);
+		const pageResponse = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/ghost"));
+		const svg = await svgResponse.text();
+		const html = await pageResponse.text();
+
+		expect(svgResponse.status).toBe(200);
+		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain("@ghost");
+		expect(svg).not.toContain("Gitty is hiding.");
+		expect(svgResponse.headers.get("cache-control")).toBe("no-store");
+		expect(pageResponse.status).toBe(200);
+		expect(html).toContain("<dd>Egg</dd>");
+		expect(html).not.toContain("Gitty is hiding.");
 		expect(await repository().getByUsername("ghost")).toBeUndefined();
 	});
 
