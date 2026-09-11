@@ -1,6 +1,7 @@
 import { GITHUB_REPO_URL, PRODUCTION_ORIGIN } from "@gittygotchi/config";
 import { copyEnhancementScript } from "./copy-script.ts";
 import { escapeHtml } from "./escape.ts";
+import { jsonLdScript } from "./json-ld.ts";
 import { PAGE_STYLES } from "./styles.ts";
 
 export type PageOptions = {
@@ -9,15 +10,19 @@ export type PageOptions = {
 	body: string;
 	canonicalPath: string;
 	ogImagePath?: string;
+	indexable?: boolean;
+	jsonLd?: unknown;
 };
 
 export function renderPage(options: PageOptions): string {
 	const title = escapeHtml(options.title);
 	const description = escapeHtml(options.description);
 	const canonical = `${PRODUCTION_ORIGIN}${options.canonicalPath}`;
-	const ogImage = options.ogImagePath
-		? `<meta property="og:image" content="${escapeHtml(PRODUCTION_ORIGIN + options.ogImagePath)}">`
-		: "";
+	const ogImagePath = options.ogImagePath ?? "/favicon.svg";
+	const ogImageUrl = `${PRODUCTION_ORIGIN}${ogImagePath}`;
+	const twitterCard = options.ogImagePath === undefined ? "summary" : "summary_large_image";
+	const robots = options.indexable === false ? "noindex, nofollow" : "index, follow";
+	const jsonLd = options.jsonLd === undefined ? "" : jsonLdScript(options.jsonLd);
 
 	return `<!DOCTYPE html>
 <html lang="en">
@@ -26,15 +31,26 @@ export function renderPage(options: PageOptions): string {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>${title}</title>
 	<meta name="description" content="${description}">
+	<meta name="robots" content="${robots}">
 	<meta name="theme-color" content="#f3ead7">
 	<link rel="canonical" href="${escapeHtml(canonical)}">
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM information">
+	<meta property="og:site_name" content="GittyGotchi">
+	<meta property="og:locale" content="en_US">
 	<meta property="og:title" content="${title}">
 	<meta property="og:description" content="${description}">
 	<meta property="og:url" content="${escapeHtml(canonical)}">
 	<meta property="og:type" content="website">
-	${ogImage}
-	<meta name="twitter:card" content="${options.ogImagePath ? "summary_large_image" : "summary"}">
+	<meta property="og:image" content="${escapeHtml(ogImageUrl)}">
+	<meta name="twitter:card" content="${twitterCard}">
+	<meta name="twitter:title" content="${title}">
+	<meta name="twitter:description" content="${description}">
+	<meta name="twitter:image" content="${escapeHtml(ogImageUrl)}">
 	<style>${PAGE_STYLES}</style>
+	${jsonLd}
 </head>
 <body>
 	<a class="skip" href="#content">Skip to content</a>

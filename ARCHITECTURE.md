@@ -95,9 +95,9 @@ Earth/Water/Air/Fire are equal. Psy is rare and never guaranteed. Growth require
 
 Cache constants live in `packages/config/src/cache.ts`. SVG TTL is 10 minutes. Contribution freshness is 20 minutes. GitHub `created_at` is stored forever after adoption.
 
-Workers Caching sits in front of the `PetSvg` entrypoint. The default gateway is uncached: it validates the username, strips query strings, and dispatches `GET /{username}.svg` to `PetSvg`. Cache keys use the normalized lowercase path, not hostname or query string. HTML, health, and 503 error SVGs are `no-store`. Invalid-username images may be cached. GitHub 404 images use a 60-second TTL.
+Workers Caching sits in front of the `PetSvg` entrypoint. The default gateway is uncached: it validates the username, strips query strings, and dispatches `GET /{username}.svg` to `PetSvg`. Cache keys use the normalized lowercase path, not hostname or query string. HTML, health, and first-visit outage eggs are `no-store`. Invalid-username images may be cached. Missing-GitHub-user images use a 60-second TTL.
 
-If GitHub is down, serve known state. Order: fresh SVG cache, stored pet, stale contribution timestamps on the pet row, then upstream GitHub. Parser failure is not zero activity. Image routes always return SVG. When no pet is stored yet, first-visit GitHub or D1 failure renders a preview egg instead of the hiding-error face.
+If GitHub is down, serve known state. Order: fresh SVG cache, stored pet, stale contribution timestamps on the pet row, then upstream GitHub. Parser failure is not zero activity. Image routes always return SVG with HTTP 200 when GitHub's README proxy needs a renderable body: invalid usernames and missing GitHub users get the unrevealed prototype egg (not a 400/404 hiding face). Those placeholders are not adopted into D1. HTML user pages still return 400/404 hiding pages. When no pet is stored yet, first-visit GitHub or D1 failure also renders a preview egg.
 
 GitHub contribution fetches ask Cloudflare to cache the HTML for the freshness TTL (`cf.cacheTtl` + `cacheEverything`) so repeated origin misses do not all hit GitHub. Do not log every healthy cache hit.
 
@@ -132,6 +132,8 @@ GitHub may proxy SVGs in ways that ignore internal links. The product snippet is
 ## Discovery loop
 
 Someone sees Gitty on a profile, clicks it, lands on `/{username}`, copies a snippet, and adds it to their own README.
+
+Crawlers and LLMs can use `/robots.txt`, `/sitemap.xml` (home and the example Gitty only, not every user), and `/llms.txt`.
 
 ## Security
 

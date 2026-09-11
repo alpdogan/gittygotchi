@@ -95,7 +95,7 @@ describe("live pet HTTP wiring", () => {
 		expect(svg).toContain(">Sleep<");
 	});
 
-	it("returns the GitHub 404 SVG and page when the user is missing", async () => {
+	it("returns a 200 prototype egg SVG and a 404 HTML page when the user is missing", async () => {
 		setGithubFetchForTests(
 			mockGithubFetch({
 				users: { missinguser: "missing" },
@@ -109,9 +109,15 @@ describe("live pet HTTP wiring", () => {
 		const pageResponse = await worker.fetch(
 			new Request("https://gittygotchi.alpdogan.co/missinguser"),
 		);
+		const svg = await svgResponse.text();
 
-		expect(svgResponse.status).toBe(404);
-		expect(await svgResponse.text()).toContain("GitHub user not found.");
+		expect(svgResponse.status).toBe(200);
+		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain('data-prototype-stage="egg"');
+		expect(svg).toContain("stage-egg");
+		expect(svg).not.toContain("Gitty is hiding.");
+		expect(svg).not.toContain("GitHub user not found.");
+		expect(svg.startsWith("{")).toBe(false);
 		expect(svgResponse.headers.get("cache-control")).toBe("public, max-age=60");
 		expect(pageResponse.status).toBe(404);
 		expect(await pageResponse.text()).toContain("GitHub user not found.");

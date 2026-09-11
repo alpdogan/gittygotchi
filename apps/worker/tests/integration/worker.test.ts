@@ -18,6 +18,11 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("Copy Markdown");
 		expect(html).toContain("Open Gitty page");
 		expect(html).toContain('property="og:image"');
+		expect(html).toContain('rel="icon" href="/favicon.svg"');
+		expect(html).toContain('type="application/ld+json"');
+		expect(html).toContain('"@type":"WebApplication"');
+		expect(html).toContain('"isAccessibleForFree":true');
+		expect(html).toContain('name="robots" content="index, follow"');
 		expect(html).not.toContain("Psy is rare");
 		expect(html).toContain("overflow-wrap: anywhere");
 		expect(html).toContain("word-break: break-all");
@@ -48,10 +53,56 @@ describe("GittyGotchi worker", () => {
 		expect(await response.json()).toEqual({ ok: true, service: "gittygotchi" });
 	});
 
-	it("serves robots.txt", async () => {
+	it("serves robots.txt that allows HTML and SVG images", async () => {
 		const response = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/robots.txt"));
+		const body = await response.text();
 		expect(response.status).toBe(200);
-		expect(await response.text()).toContain("User-agent: *");
+		expect(response.headers.get("content-type")).toContain("text/plain");
+		expect(body).toContain("User-agent: *");
+		expect(body).toContain("Allow: /");
+		expect(body).toContain("Allow: /*.svg");
+		expect(body).toContain("Sitemap: https://gittygotchi.alpdogan.co/sitemap.xml");
+		expect(body).toContain("Disallow: /health");
+		expect(body).not.toMatch(/^Disallow: \/$/m);
+		expect(body).not.toContain("Disallow: /*.svg");
+	});
+
+	it("serves a small sitemap for the landing and example Gitty", async () => {
+		const response = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/sitemap.xml"));
+		const body = await response.text();
+		expect(response.status).toBe(200);
+		expect(response.headers.get("content-type")).toContain("application/xml");
+		expect(body).toContain("https://gittygotchi.alpdogan.co/");
+		expect(body).toContain("https://gittygotchi.alpdogan.co/alpdogan");
+		expect(body).not.toContain("YOUR_USERNAME");
+	});
+
+	it("serves llms.txt and the llm.txt alias", async () => {
+		const llms = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/llms.txt"));
+		const alias = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/llm.txt"));
+		const body = await llms.text();
+		expect(llms.status).toBe(200);
+		expect(alias.status).toBe(200);
+		expect(await alias.text()).toBe(body);
+		expect(body).toContain("# GittyGotchi");
+		expect(body).toContain("https://gittygotchi.alpdogan.co");
+		expect(body).toContain("YOUR_USERNAME.svg");
+		expect(body).toContain("No login");
+		expect(body).toContain("does not read private repository contents");
+		expect(body).toContain("first visit");
+	});
+
+	it("serves favicon routes as egg SVG", async () => {
+		for (const path of ["/favicon.svg", "/favicon.ico", "/apple-touch-icon.png"]) {
+			const response = await worker.fetch(new Request(`https://gittygotchi.alpdogan.co${path}`));
+			const svg = await response.text();
+			expect(response.status).toBe(200);
+			expect(response.headers.get("content-type")).toContain("image/svg+xml");
+			expect(svg).toContain("<svg");
+			expect(svg).toContain('data-gitty-favicon="egg"');
+			expect(svg).toContain('data-prototype-stage="egg"');
+			expect(svg.startsWith("{")).toBe(false);
+		}
 	});
 
 	it("serves a personal Gitty page", async () => {
@@ -120,22 +171,31 @@ describe("GittyGotchi worker", () => {
 		expect(health.headers.get("cache-control")).toBe("no-store");
 	});
 
-	it("returns an error SVG for an invalid username image request", async () => {
+	it("returns a 200 prototype egg for an invalid username image request", async () => {
 		const response = await worker.fetch(
-			new Request("https://gittygotchi.alpdogan.co/not_a_user.svg"),
+			new Request("https://gittygotchi.alpdogan.co/YOUR_USERNAME.svg"),
 		);
 		const svg = await response.text();
-		expect(response.status).toBe(400);
+		expect(response.status).toBe(200);
 		expect(response.headers.get("content-type")).toContain("image/svg+xml");
-		expect(svg).toContain("Gitty is hiding.");
+		expect(svg).toContain("<svg");
+		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain('data-gitty-body="egg"');
+		expect(svg).toContain('data-prototype-stage="egg"');
+		expect(svg).toContain("stage-egg");
+		expect(svg).not.toContain("Gitty is hiding.");
 		expect(svg.startsWith("{")).toBe(false);
+		expect(svg.includes("<html")).toBe(false);
 		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});
 
 	it("rejects invalid username pages", async () => {
 		const response = await worker.fetch(new Request("https://gittygotchi.alpdogan.co/-bad"));
+		const html = await response.text();
 		expect(response.status).toBe(400);
-		expect(await response.text()).toContain("Gitty is hiding.");
+		expect(html).toContain("Gitty is hiding.");
+		expect(html).toContain("Invalid username · GittyGotchi");
+		expect(html).toContain('name="robots" content="noindex, nofollow"');
 	});
 
 	it("rejects nested paths", async () => {
