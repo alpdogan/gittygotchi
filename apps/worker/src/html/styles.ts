@@ -115,14 +115,21 @@ pre, pre code {
 	box-shadow: 0 10px 30px rgba(61, 44, 30, 0.08);
 	background: #f4efe4;
 }
-.gitty-frame.large { width: min(100%, 320px); }
+.gitty-frame.large { width: min(100%, 240px); }
 .gitty-frame.is-hidden { display: none; }
 .gitty-status {
-	width: min(100%, 36rem);
+	width: min(100%, 240px);
 	margin: 0.4rem 0 1rem;
 }
-.gitty-status .gitty-frame { margin: 0 0 0.75rem; }
-.gitty-status .facts { margin: 0; }
+.gitty-status .gitty-frame {
+	width: 100%;
+	margin: 0 0 0.75rem;
+}
+.gitty-status .facts {
+	margin: 0;
+	width: 100%;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 .notice {
 	margin: 0 0 1.2rem;
 	padding: 0.7rem 0.9rem;
@@ -132,18 +139,33 @@ pre, pre code {
 }
 .facts {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
-	gap: 0.7rem;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: stretch;
+	gap: 0.5rem;
 	margin: 1rem 0;
 }
 .facts div {
+	min-width: 0;
 	background: var(--card);
 	border: 1px solid var(--line);
 	border-radius: 0.9rem;
-	padding: 0.75rem 0.9rem;
+	padding: 0.55rem 0.65rem;
+	overflow-wrap: anywhere;
 }
-.facts dt { margin: 0; color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
-.facts dd { margin: 0.15rem 0 0; font-weight: 650; }
+.facts dt {
+	margin: 0;
+	color: var(--muted);
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+.facts dd {
+	margin: 0.15rem 0 0;
+	font-weight: 650;
+	line-height: 1.25;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
 .links { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
 label { display: block; font-size: 0.92rem; margin-bottom: 0.35rem; }
 .field { margin: 0.85rem 0; }

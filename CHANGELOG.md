@@ -10,7 +10,8 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 ### Changed
 
 - HTTP preview is the unrevealed prototype egg again. The earlier adult Earth SVG was a hardcoded preview, not live class or growth.
-- User pages show preview hunger, mood, and sleep under the character. Those labels match the shared egg preview, not per-user pet state.
+- Egg share pages only show Class and Stage. Class copy is Hidden so the chip fits the 240px Gitty card. Hunger, mood, and sleep stay off eggs.
+- Hatched Gitty SVGs draw hunger, mood, and sleep on the 240×240 card so GitHub README embeds can show them. Eggs stay unrevealed.
 
 ### Added
 
