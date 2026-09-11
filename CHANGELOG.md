@@ -7,6 +7,12 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ## [Unreleased]
 
+### Changed
+
+- HTTP preview is the unrevealed prototype egg again. The earlier adult Earth SVG was a hardcoded preview, not live class or growth.
+- Egg share pages only show Class and Stage. Class copy is Hidden so the chip fits the 240px Gitty card. Hunger, mood, and sleep stay off eggs.
+- Hatched Gitty SVGs draw hunger, mood, and sleep on the 240×240 card so GitHub README embeds can show them. Eggs stay unrevealed.
+
 ### Added
 
 - Live HTTP path: first `/{username}` or `/{username}.svg` visit fetches public GitHub `created_at`, inserts a D1 pet, and renders stored egg state. Later visits refresh contributions, run growth, and draw the stored Gitty instead of the hardcoded preview.

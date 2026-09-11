@@ -1,5 +1,6 @@
 import { GITHUB_REPO_URL, readmeSnippet } from "@gittygotchi/config";
-import type { Behavior, VisiblePetState } from "@gittygotchi/domain";
+import type { VisiblePetState } from "@gittygotchi/domain";
+import { sharePageFacts } from "@gittygotchi/svg";
 import { escapeHtml } from "./escape.ts";
 import { renderGittyForm } from "./gitty-form.ts";
 import { renderPage } from "./layout.ts";
@@ -7,13 +8,13 @@ import { renderPage } from "./layout.ts";
 export function renderUserPage(username: string, state: VisiblePetState): string {
 	const snippet = readmeSnippet(username);
 	const safe = escapeHtml(username);
-	const facts = userPageFacts(state)
+	const facts = sharePageFacts(state)
 		.map(
 			(fact) => `
-			<div>
-				<dt>${escapeHtml(fact.label)}</dt>
-				<dd>${escapeHtml(fact.value)}</dd>
-			</div>`,
+				<div>
+					<dt>${escapeHtml(fact.label)}</dt>
+					<dd>${escapeHtml(fact.value)}</dd>
+				</div>`,
 		)
 		.join("");
 
@@ -25,10 +26,12 @@ export function renderUserPage(username: string, state: VisiblePetState): string
 		body: `
 		<p class="eyebrow">A public Gitty page</p>
 		<h1>@${safe}'s Gitty</h1>
-		<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi for @${safe}">
+		<div class="gitty-status">
+			<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi for @${safe}">
+			<dl class="facts">${facts}
+			</dl>
+		</div>
 		<p class="notice">This page is shareable. Exact formulas stay private. Everyone starts as an egg; growth starts after adoption.</p>
-		<dl class="facts">${facts}
-		</dl>
 		<p class="links">
 			<a href="https://github.com/${safe}">View @${safe} on GitHub</a>
 			<a href="${GITHUB_REPO_URL}">Star GittyGotchi on GitHub</a>
@@ -70,24 +73,6 @@ export function renderGitHubUnavailablePage(username: string): string {
 	});
 }
 
-export function userPageFacts(state: VisiblePetState): { label: string; value: string }[] {
-	const classValue = state.growthStage === "egg" ? "Hidden" : titleCaseStatus(state.gittyClass);
-	const facts = [
-		{ label: "Class", value: classValue },
-		{ label: "Stage", value: titleCaseStatus(state.growthStage) },
-	];
-	if (state.growthStage === "egg") {
-		return facts;
-	}
-
-	return [
-		...facts,
-		{ label: "Hunger", value: titleCaseStatus(state.hunger) },
-		{ label: "Mood", value: titleCaseStatus(state.mood) },
-		{ label: "Sleep", value: sleepStatus(state.behavior) },
-	];
-}
-
 function renderGittyHidingPage(copy: { description: string; detail: string }): string {
 	return renderPage({
 		title: "Gitty is hiding · GittyGotchi",
@@ -101,18 +86,4 @@ function renderGittyHidingPage(copy: { description: string; detail: string }): s
 		<p><a class="button" href="/#own">Get your own Gitty</a></p>
 		`,
 	});
-}
-
-function titleCaseStatus(value: string): string {
-	return value
-		.split("_")
-		.map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
-		.join(" ");
-}
-
-function sleepStatus(behavior: Behavior): string {
-	if (behavior === "sleeping" || behavior === "sleepy" || behavior === "hibernating") {
-		return titleCaseStatus(behavior);
-	}
-	return "Awake";
 }

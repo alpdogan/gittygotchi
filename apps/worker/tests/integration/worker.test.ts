@@ -23,6 +23,7 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("word-break: break-all");
 		expect(html).toContain("Everyone starts as an egg. The first visit creates a Gitty");
 		expect(html).not.toContain("preview shows an adult Gitty");
+		expect(html).not.toContain("Preview adult");
 	});
 
 	it("prefills the landing generator from a username query", async () => {
@@ -63,14 +64,19 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("View @alpdogan on GitHub");
 		expect(html).toContain("Star GittyGotchi on GitHub");
 		expect(html).toContain("Get my Gitty");
+		expect(html).not.toContain("Preview adult");
 		expect(html).toContain("<dt>Class</dt>");
 		expect(html).toContain("<dd>Hidden</dd>");
 		expect(html).toContain("<dt>Stage</dt>");
 		expect(html).toContain("<dd>Egg</dd>");
 		expect(html).not.toContain("<dt>Hunger</dt>");
 		expect(html).not.toContain("<dt>Mood</dt>");
-		expect(html).not.toContain("Preview adult");
+		expect(html).not.toContain("<dt>Sleep</dt>");
+		expect(html).not.toContain("<dd>Unrevealed</dd>");
 		expect(html).not.toContain("Coming soon");
+		expect(html).toContain("width: min(100%, 240px)");
+		expect(html).toContain("grid-template-columns: repeat(2, minmax(0, 1fr))");
+		expect(html).toContain("growth starts after adoption");
 		expect(html).toContain('content="https://gittygotchi.alpdogan.co/alpdogan.svg"');
 	});
 
@@ -89,6 +95,10 @@ describe("GittyGotchi worker", () => {
 		expect(svg).toContain("stage-egg");
 		expect(svg).not.toContain("earth-leaf");
 		expect(svg).not.toContain("A preview adult Gitty");
+		expect(svg).not.toContain("gitty-status-labels");
+		expect(svg).not.toContain(">Hunger<");
+		expect(svg).not.toContain(">Mood<");
+		expect(svg).not.toContain(">Sleep<");
 		expect(svg).toContain("@alpdogan");
 		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});

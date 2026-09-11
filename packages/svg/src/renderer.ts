@@ -2,12 +2,13 @@ import type { VisiblePetState } from "@gittygotchi/domain";
 import { escapeXml } from "./escape.ts";
 import { resolveFace } from "./face.ts";
 import { renderVariationPrototype } from "./prototype/renderer.ts";
+import { renderReadmeStatusOverlay } from "./status.ts";
 
 export const FOUNDATION_PREVIEW_STATE: VisiblePetState = {
 	gittyClass: "earth",
-	growthStage: "adult",
+	growthStage: "egg",
 	hunger: "normal",
-	mood: "happy",
+	mood: "neutral",
 	behavior: "idle",
 };
 
@@ -33,25 +34,28 @@ export function renderGitty(options: GittySvgOptions): string {
 		? `GittyGotchi preview for @${safeUser}`
 		: `GittyGotchi for @${safeUser}`;
 	const desc = options.preview
-		? "A preview adult Gitty. Live class and growth are not connected yet."
+		? "A preview unrevealed Gitty egg. Live class and growth are not connected yet."
 		: `${escapeXml(state.gittyClass)} ${escapeXml(state.growthStage)} looking ${escapeXml(face)}.`;
 
-	return stampProductionMetadata(
-		renderVariationPrototype({
-			gittyClass: state.gittyClass,
-			stage: state.growthStage,
-			mood: state.mood,
-			hunger: state.hunger,
-			behavior: state.behavior,
-		}),
-		{
-			title,
-			desc,
-			gittyClass: state.gittyClass,
-			growthStage: state.growthStage,
-			behavior: state.behavior,
-			face,
-		},
+	return stampStatusLabels(
+		stampProductionMetadata(
+			renderVariationPrototype({
+				gittyClass: state.gittyClass,
+				stage: state.growthStage,
+				mood: state.mood,
+				hunger: state.hunger,
+				behavior: state.behavior,
+			}),
+			{
+				title,
+				desc,
+				gittyClass: state.gittyClass,
+				growthStage: state.growthStage,
+				behavior: state.behavior,
+				face,
+			},
+		),
+		state,
 	);
 }
 
@@ -73,4 +77,12 @@ function stampProductionMetadata(
 			/<svg\b([^>]*)>/,
 			`<svg$1 data-gitty-class="${attrs.gittyClass}" data-gitty-stage="${attrs.growthStage}" data-gitty-body="${attrs.growthStage}" data-gitty-behavior="${attrs.behavior}" data-gitty-face="${attrs.face}">`,
 		);
+}
+
+function stampStatusLabels(svg: string, state: VisiblePetState): string {
+	const overlay = renderReadmeStatusOverlay(state);
+	if (overlay.length === 0) {
+		return svg;
+	}
+	return svg.replace("</svg>", `${overlay}</svg>`);
 }
