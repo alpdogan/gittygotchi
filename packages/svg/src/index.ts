@@ -10,3 +10,11 @@ export type { ClassPalette } from "./palette.ts";
 export { CLASS_PALETTES } from "./palette.ts";
 export type { GittySvgOptions } from "./renderer.ts";
 export { FOUNDATION_PREVIEW_STATE, renderGitty } from "./renderer.ts";
+export type { PetStatusFact } from "./status.ts";
+export {
+	classStatus,
+	readmeStatusFacts,
+	sharePageFacts,
+	sleepStatus,
+	titleCaseStatus,
+} from "./status.ts";

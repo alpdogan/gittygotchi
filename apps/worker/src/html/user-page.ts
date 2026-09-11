@@ -1,11 +1,23 @@
 import { GITHUB_REPO_URL, readmeSnippet } from "@gittygotchi/config";
+import { FOUNDATION_PREVIEW_STATE, sharePageFacts } from "@gittygotchi/svg";
 import { escapeHtml } from "./escape.ts";
 import { renderGittyForm } from "./gitty-form.ts";
 import { renderPage } from "./layout.ts";
 
+const previewFacts = sharePageFacts(FOUNDATION_PREVIEW_STATE);
+
 export function renderUserPage(username: string): string {
 	const snippet = readmeSnippet(username);
 	const safe = escapeHtml(username);
+	const facts = previewFacts
+		.map(
+			(fact) => `
+				<div>
+					<dt>${escapeHtml(fact.label)}</dt>
+					<dd>${escapeHtml(fact.value)}</dd>
+				</div>`,
+		)
+		.join("");
 
 	return renderPage({
 		title: `@${username}'s Gitty · GittyGotchi`,
@@ -15,22 +27,12 @@ export function renderUserPage(username: string): string {
 		body: `
 		<p class="eyebrow">A public Gitty page</p>
 		<h1>@${safe}'s Gitty</h1>
-		<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi for @${safe}">
-		<p class="notice">This page is shareable. Exact formulas stay private. Live class and growth are not connected yet.</p>
-		<dl class="facts">
-			<div>
-				<dt>Class</dt>
-				<dd>Coming soon</dd>
-			</div>
-			<div>
-				<dt>Current visible state</dt>
-				<dd>Preview adult</dd>
-			</div>
-			<div>
-				<dt>Growth</dt>
-				<dd>Adult</dd>
-			</div>
-		</dl>
+		<div class="gitty-status">
+			<img class="gitty-frame large" src="/${safe}.svg" alt="GittyGotchi for @${safe}">
+			<dl class="facts">${facts}
+			</dl>
+		</div>
+		<p class="notice">This page is shareable. Exact formulas stay private. Live class and growth are not connected yet, so every username currently shows the same unrevealed egg.</p>
 		<p class="links">
 			<a href="https://github.com/${safe}">View @${safe} on GitHub</a>
 			<a href="${GITHUB_REPO_URL}">Star GittyGotchi on GitHub</a>

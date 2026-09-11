@@ -33,6 +33,11 @@ describe("screenshot samples", () => {
 		for (const stage of SCREENSHOT_STAGES) {
 			const svg = renderStageScreenshot(stage);
 			expect(svg).toContain(`data-gitty-body="${stage}"`);
+			if (stage === "egg") {
+				expect(svg).not.toContain("gitty-status-labels");
+			} else {
+				expect(svg).toContain("gitty-status-labels");
+			}
 		}
 
 		for (const gittyClass of SCREENSHOT_CLASSES) {

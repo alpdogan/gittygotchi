@@ -21,7 +21,9 @@ describe("GittyGotchi worker", () => {
 		expect(html).not.toContain("Psy is rare");
 		expect(html).toContain("overflow-wrap: anywhere");
 		expect(html).toContain("word-break: break-all");
-		expect(html).toContain("preview shows an adult Gitty");
+		expect(html).toContain("preview shows the unrevealed egg");
+		expect(html).not.toContain("preview shows an adult Gitty");
+		expect(html).not.toContain("Preview adult");
 	});
 
 	it("prefills the landing generator from a username query", async () => {
@@ -62,7 +64,18 @@ describe("GittyGotchi worker", () => {
 		expect(html).toContain("View @alpdogan on GitHub");
 		expect(html).toContain("Star GittyGotchi on GitHub");
 		expect(html).toContain("Get my Gitty");
-		expect(html).toContain("Preview adult");
+		expect(html).not.toContain("Preview adult");
+		expect(html).toContain("<dt>Class</dt>");
+		expect(html).toContain("<dd>Hidden</dd>");
+		expect(html).toContain("<dt>Stage</dt>");
+		expect(html).toContain("<dd>Egg</dd>");
+		expect(html).not.toContain("<dt>Hunger</dt>");
+		expect(html).not.toContain("<dt>Mood</dt>");
+		expect(html).not.toContain("<dt>Sleep</dt>");
+		expect(html).not.toContain("<dd>Unrevealed</dd>");
+		expect(html).toContain("width: min(100%, 240px)");
+		expect(html).toContain("grid-template-columns: repeat(2, minmax(0, 1fr))");
+		expect(html).toContain("every username currently shows the same unrevealed egg");
 		expect(html).toContain('content="https://gittygotchi.alpdogan.co/alpdogan.svg"');
 	});
 
@@ -74,9 +87,16 @@ describe("GittyGotchi worker", () => {
 		expect(response.status).toBe(200);
 		expect(response.headers.get("content-type")).toContain("image/svg+xml");
 		expect(svg).toContain("<svg");
-		expect(svg).toContain('data-gitty-stage="adult"');
-		expect(svg).toContain('data-prototype-stage="adult"');
-		expect(svg).toContain("earth-leaf");
+		expect(svg).toContain('data-gitty-stage="egg"');
+		expect(svg).toContain('data-gitty-body="egg"');
+		expect(svg).toContain('data-prototype-stage="egg"');
+		expect(svg).toContain('data-prototype-class="unrevealed"');
+		expect(svg).toContain("stage-egg");
+		expect(svg).not.toContain("earth-leaf");
+		expect(svg).not.toContain("gitty-status-labels");
+		expect(svg).not.toContain(">Hunger<");
+		expect(svg).not.toContain(">Mood<");
+		expect(svg).not.toContain(">Sleep<");
 		expect(svg).toContain("@alpdogan");
 		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});
@@ -86,7 +106,7 @@ describe("GittyGotchi worker", () => {
 			new Request("https://gittygotchi.alpdogan.co/alpdogan.svg?utm=readme"),
 		);
 		expect(response.status).toBe(200);
-		expect(await response.text()).toContain('data-gitty-stage="adult"');
+		expect(await response.text()).toContain('data-gitty-stage="egg"');
 		expect(response.headers.get("cache-control")).toBe("public, max-age=600");
 	});
 
