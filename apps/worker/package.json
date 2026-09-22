@@ -15,9 +15,9 @@
 		"@gittygotchi/svg": "workspace:*"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-plugin": "1.1.8",
+		"@cloudflare/vitest-plugin": "1.1.13",
 		"typescript": "5.9.3",
 		"vitest": "4.1.11",
-		"wrangler": "4.131.1"
+		"wrangler": "4.135.0"
 	}
 }
